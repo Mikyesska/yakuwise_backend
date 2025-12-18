@@ -46,6 +46,7 @@
         'django.contrib.staticfiles',
         'rest_framework',  # <--- Agrega esta línea
         'apps.usuarios',   # Asegúrate de que tus apps locales estén aquí
+        ]
     ```
 
 ## 10. Crear los archivos faltantes:
@@ -76,7 +77,7 @@ Crear los archivos ```urls.py``` y ```serializer.py``` en la aplicacion denomina
     | psycopg             | 3.3.2  |
     | psycopg-binary      | 3.3.2  |
     | sqlparse            | 0.5.4  |
-    | tzdata              | 2025.2 |
+    | tzdata              | 2025.3 |
 
 * Crear la base de datos y sus tablas en postgreSQL
 
@@ -94,7 +95,6 @@ Crear los archivos ```urls.py``` y ```serializer.py``` en la aplicacion denomina
         }
     ```
 ## 13. Crear modelos en models.py de la aplicacion creada
-* Digita el comando : ```python manage.py inspectdb > nombre_app/models.py```
 
 ## 14. Ejecutar la migracion las tablas 
 * Primero ejecutar esto ```python manage.py makemigrations```

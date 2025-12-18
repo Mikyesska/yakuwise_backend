@@ -2,7 +2,6 @@
 *.pyc
 
 # Cachés y directorios de entorno virtual
-__pycache__/
 venv/
 env/
 .venv/
@@ -18,3 +17,9 @@ settings_local.py
 .DS_Store # macOS
 Thumbs.db # Windows
 .vscode/
+
+# Ignorar carpetas de migraciones (ejemplos)
+**/migrations/
+cliente/migrations
+security/migrations
+monitoreoparametro/migrations

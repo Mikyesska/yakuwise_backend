@@ -59,7 +59,10 @@ Crear los archivos ```urls.py``` y ```serializer.py``` en la aplicacion denomina
 * ### 11.2. Listar librerías instaladas en el proyecto
     Para ello, digitar el siguiente comando: ```pip list```  que  es lista los paquetes con sus números de versión.
 
-## 12. Conexion postgresql y django
+## 12. Instalar todos los requerimientos (PARA LEVANTAR EN MODO DESARROLLO):
+Ejecutar ```pip install -r requirements.txt``` 
+
+## 13. Conexion postgresql y django
 * Previamente, instalar postgresql, crear la base de datos.
 
 * Instalar psycopg 3, ejecutando  ```pip install "psycopg[binary]"```
@@ -112,3 +115,15 @@ Crear los archivos ```urls.py``` y ```serializer.py``` en la aplicacion denomina
 
     ```env/ ```
 
+## 16. Instalar formateadores de código
+* Para instalar Isort, black y flake8
+    ```pip install isort black flake8 ```
+    ```pip freeze -> requirements_dev.txt```
+
+* (PARA LEVANTAR EN MODO DESARROLLO):
+    ```pip install -r requirements_dev.txt``` 
+
+* Para utilizar los formateadores:
+    ```isort . ```
+    ```black . ```
+    ```flake8 . ```

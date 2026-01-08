@@ -1,5 +1,7 @@
 from django.db import models
-from cliente.models import Proyecto
+
+from apps.cliente.models import Proyecto
+
 
 # Modelo frecuencia de monitoreo
 class FrecuenciaMonitoreo(models.Model):
@@ -16,6 +18,7 @@ class FrecuenciaMonitoreo(models.Model):
 
     def __str__(self):
         return self.nombre_frecuencia
+
 
 # Modelo de horario de monitoreo
 class HorarioMonitoreo(models.Model):
@@ -34,6 +37,7 @@ class HorarioMonitoreo(models.Model):
     def __str__(self):
         return self.nombre_horario
 
+
 # Modelo tipo de parametro
 class TipoParametro(models.Model):
     id_tipo_parametro = models.AutoField(primary_key=True)
@@ -47,6 +51,7 @@ class TipoParametro(models.Model):
 
     def __str__(self):
         return self.nombre_tipo_parametro
+
 
 # Modelo unidad de medida
 class UnidadMedida(models.Model):
@@ -63,14 +68,19 @@ class UnidadMedida(models.Model):
     def __str__(self):
         return self.nombre_unidad_medida
 
+
 # Modelo de parametro
 class Parametro(models.Model):
     id_parametro = models.AutoField(primary_key=True)
     nombre_parametro = models.CharField(max_length=150)
     limite_superior = models.IntegerField()
     limite_inferior = models.IntegerField(blank=True, null=True)
-    id_unidad_medida = models.ForeignKey('UnidadMedida', on_delete = models.CASCADE, db_column='id_unidad_medida')
-    id_tipo_parametro = models.ForeignKey('TipoParametro', on_delete = models.CASCADE, db_column='id_tipo_parametro')
+    id_unidad_medida = models.ForeignKey(
+        'UnidadMedida', on_delete=models.CASCADE, db_column='id_unidad_medida'
+    )
+    id_tipo_parametro = models.ForeignKey(
+        'TipoParametro', on_delete=models.CASCADE, db_column='id_tipo_parametro'
+    )
     estado = models.BooleanField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
@@ -83,13 +93,22 @@ class Parametro(models.Model):
     def __str__(self):
         return self.nombre_parametro
 
+
 # Modelo parametro punto de muestreo
 class ParametroPuntoMuestreo(models.Model):
     id_parametro_punto_muestreo = models.AutoField(primary_key=True)
-    id_parametro = models.ForeignKey('Parametro', on_delete = models.CASCADE, db_column = 'id_parametro')
-    id_punto_muestreo = models.ForeignKey('PuntoMuestreo', on_delete = models.CASCADE, db_column = 'id_punto_muestreo')
-    id_frecuencia = models.ForeignKey(FrecuenciaMonitoreo, on_delete = models.CASCADE, db_column = 'id_frecuencia')
-    id_horario = models.ForeignKey(HorarioMonitoreo, on_delete = models.CASCADE, db_column = 'id_horario')
+    id_parametro = models.ForeignKey(
+        'Parametro', on_delete=models.CASCADE, db_column='id_parametro'
+    )
+    id_punto_muestreo = models.ForeignKey(
+        'PuntoMuestreo', on_delete=models.CASCADE, db_column='id_punto_muestreo'
+    )
+    id_frecuencia = models.ForeignKey(
+        FrecuenciaMonitoreo, on_delete=models.CASCADE, db_column='id_frecuencia'
+    )
+    id_horario = models.ForeignKey(
+        HorarioMonitoreo, on_delete=models.CASCADE, db_column='id_horario'
+    )
 
     class Meta:
         db_table = 'parametro_punto_muestreo'
@@ -99,12 +118,17 @@ class ParametroPuntoMuestreo(models.Model):
     def __str__(self):
         return self.id_parametro_punto_muestreo
 
+
 # Modelo de monitoreo
 class Monitoreo(models.Model):
     id_monitoreo = models.AutoField(primary_key=True)
     valor_monitoreo = models.IntegerField()
     fecha_monitoreo = models.DateTimeField(auto_now_add=True)
-    id_parametro_punto_muestreo = models.ForeignKey('ParametroPuntoMuestreo', on_delete=models.CASCADE, db_column='id_parametro_punto_muestreo')
+    id_parametro_punto_muestreo = models.ForeignKey(
+        'ParametroPuntoMuestreo',
+        on_delete=models.CASCADE,
+        db_column='id_parametro_punto_muestreo',
+    )
 
     class Meta:
         db_table = 'monitoreo'
@@ -113,6 +137,7 @@ class Monitoreo(models.Model):
 
     def __str__(self):
         return self.id_monitoreo
+
 
 # Modelo tipo de error
 class TipoError(models.Model):
@@ -127,12 +152,17 @@ class TipoError(models.Model):
     def __str__(self):
         return self.nombre_tipo_error
 
+
 # Modelo anormalidad
 class Anormalidad(models.Model):
     id_anormmalidad = models.AutoField(primary_key=True)
     fecha_anormalidad = models.DateTimeField()
-    id_tipo_error = models.ForeignKey('TipoError', on_delete=models.CASCADE, db_column='id_tipo_error')
-    id_monitoreo = models.ForeignKey('Monitoreo', on_delete=models.CASCADE, db_column='id_monitoreo')
+    id_tipo_error = models.ForeignKey(
+        'TipoError', on_delete=models.CASCADE, db_column='id_tipo_error'
+    )
+    id_monitoreo = models.ForeignKey(
+        'Monitoreo', on_delete=models.CASCADE, db_column='id_monitoreo'
+    )
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
@@ -144,12 +174,15 @@ class Anormalidad(models.Model):
     def __str__(self):
         return self.id_anormmalidad
 
+
 # Modelo accion correctiva
 class AccionCorrectiva(models.Model):
     id_accion_correctiva = models.AutoField(primary_key=True)
     descripcion = models.TextField(blank=True)
     fecha_accion_correctiva = models.DateTimeField()
-    id_anormalidad = models.ForeignKey('Anormalidad', on_delete=models.CASCADE, db_column='id_anormalidad')
+    id_anormalidad = models.ForeignKey(
+        'Anormalidad', on_delete=models.CASCADE, db_column='id_anormalidad'
+    )
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
@@ -160,6 +193,7 @@ class AccionCorrectiva(models.Model):
 
     def __str__(self):
         return self.id_accion_correctiva
+
 
 # Modelo tipo de planta
 class TipoPlanta(models.Model):
@@ -174,16 +208,21 @@ class TipoPlanta(models.Model):
 
     def __str__(self):
         return self.nombre_tipo_planta
-    
+
+
 # Modelo planta
 class Planta(models.Model):
     id_planta = models.AutoField(primary_key=True)
-    tipo_planta = models.ForeignKey('TipoPlanta', on_delete= models.CASCADE, db_column='tipo_planta')
+    tipo_planta = models.ForeignKey(
+        'TipoPlanta', on_delete=models.CASCADE, db_column='tipo_planta'
+    )
     nombre_planta = models.CharField(max_length=300)
     abreviatura_planta = models.CharField(max_length=20)
     descripcion = models.TextField(blank=True)
     estado = models.BooleanField()
-    proyecto = models.ForeignKey(Proyecto,on_delete=models.CASCADE, db_column='proyecto')
+    proyecto = models.ForeignKey(
+        Proyecto, on_delete=models.CASCADE, db_column='proyecto'
+    )
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
@@ -194,13 +233,16 @@ class Planta(models.Model):
 
     def __str__(self):
         return self.nombre_planta
-    
+
+
 # Modelo etapa
 class Etapa(models.Model):
     id_etapa = models.AutoField(primary_key=True)
     nombre_etapa = models.CharField(max_length=255)
     imagen_etapa = models.TextField()
-    id_planta = models.ForeignKey('Planta',on_delete = models.CASCADE, db_column='id_planta')
+    id_planta = models.ForeignKey(
+        'Planta', on_delete=models.CASCADE, db_column='id_planta'
+    )
     estado = models.BooleanField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
@@ -212,12 +254,13 @@ class Etapa(models.Model):
 
     def __str__(self):
         return self.nombre_etapa
-    
+
+
 # Modelo punto de muestreo
 class PuntoMuestreo(models.Model):
     id_punto_muestreo = models.AutoField(primary_key=True)
     nombre_punto_muestreo = models.CharField(max_length=255)
-    id_etapa = models.ForeignKey(Etapa, on_delete= models.CASCADE, db_column='id_etapa')
+    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE, db_column='id_etapa')
     estado = models.BooleanField()
 
     class Meta:

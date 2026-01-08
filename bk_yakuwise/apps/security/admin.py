@@ -1,5 +1,15 @@
 from django.contrib import admin
-from .models import TipoDocumento, Persona, Usuario, Rol, UsuarioRol, Menus, RolMenus, Modulo
+
+from .models import (
+    Menus,
+    Modulo,
+    Persona,
+    Rol,
+    RolMenus,
+    TipoDocumento,
+    Usuario,
+    UsuarioRol,
+)
 
 # Register your models here.
 admin.site.register(TipoDocumento)

@@ -1,5 +1,21 @@
 from django.contrib import admin
-from .models import Anormalidad, Etapa, FrecuenciaMonitoreo, HorarioMonitoreo, Monitoreo, ParametroPuntoMuestreo, Parametro, TipoError, TipoPlanta, TipoParametro, PuntoMuestreo, UnidadMedida, Planta, AccionCorrectiva
+
+from .models import (
+    AccionCorrectiva,
+    Anormalidad,
+    Etapa,
+    FrecuenciaMonitoreo,
+    HorarioMonitoreo,
+    Monitoreo,
+    Parametro,
+    ParametroPuntoMuestreo,
+    Planta,
+    PuntoMuestreo,
+    TipoError,
+    TipoParametro,
+    TipoPlanta,
+    UnidadMedida,
+)
 
 # Register your models here.
 admin.site.register(Anormalidad)

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Modelo contacto
 class Contacto(models.Model):
     id_contacto = models.AutoField(primary_key=True)
@@ -20,9 +21,9 @@ class Contacto(models.Model):
 
     def obtener_nombre_completo(self):
         partes_nombre_contacto = [
-            self.apellido_paterno, 
+            self.apellido_paterno,
             self.apellido_materno,
-            self.nombres            
+            self.nombres,
         ]
 
         nombre_completo_contacto = " ".join(partes_nombre_contacto)
@@ -32,16 +33,21 @@ class Contacto(models.Model):
     def __str__(self):
         return self.obtener_nombre_completo()
 
+
 # Modelo cliente
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
     nombre_cliente = models.CharField(max_length=255)
-    ruc_cliente = models.CharField(max_length=12, help_text='Registro unico del contribuyente')
+    ruc_cliente = models.CharField(
+        max_length=12, help_text='Registro unico del contribuyente'
+    )
     email = models.CharField(max_length=255)
     telefono = models.CharField(max_length=15)
     direccion = models.CharField(max_length=300)
     estado = models.BooleanField()
-    id_contacto = models.ForeignKey('Contacto', on_delete=models.CASCADE, db_column='id_contacto')
+    id_contacto = models.ForeignKey(
+        'Contacto', on_delete=models.CASCADE, db_column='id_contacto'
+    )
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
@@ -52,13 +58,16 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nombre_cliente
-    
+
+
 # Modelo proyecto
 class Proyecto(models.Model):
     id_proyecto = models.AutoField(primary_key=True)
     nombre_proyecto = models.TextField()
     estado = models.BooleanField()
-    id_cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE, db_column='id_cliente')
+    id_cliente = models.ForeignKey(
+        Cliente, on_delete=models.CASCADE, db_column='id_cliente'
+    )
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 

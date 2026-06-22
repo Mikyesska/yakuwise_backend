@@ -75,6 +75,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'yakuwise.urls'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  # número de registros por página
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

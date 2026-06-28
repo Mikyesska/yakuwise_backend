@@ -1,5 +1,51 @@
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+
+
+class UsuarioManager(BaseUserManager):
+    def get_by_natural_key(self, username):
+        return self.get(nombre_usuario=username)
+
+    def create_user(
+        self, nombre_usuario, email_institucional, password=None, **extra_fields
+    ):
+        """
+        Crea y guarda un usuario normal con la contraseña dada.
+        """
+        if not nombre_usuario:
+            raise ValueError('El nombre de usuario es obligatorio')
+        if not email_institucional:
+            raise ValueError('El email institucional es obligatorio')
+
+        # Establecer estado=True por defecto si no se proporciona
+        extra_fields.setdefault('estado', True)
+
+        usuario = self.model(
+            nombre_usuario=nombre_usuario,
+            email_institucional=email_institucional,
+            **extra_fields,
+        )
+        usuario.set_password(password)
+        usuario.save(using=self._db)
+        return usuario
+
+    def create_superuser(
+        self, nombre_usuario, email_institucional, password=None, **extra_fields
+    ):
+        """
+        Crea y guarda un superusuario con la contraseña dada.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser debe tener is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser debe tener is_superuser=True.')
+
+        return self.create_user(
+            nombre_usuario, email_institucional, password, **extra_fields
+        )
 
 
 # Modelo tipo de documento de identidad
@@ -71,10 +117,18 @@ class Usuario(AbstractBaseUser):
     email_institucional = models.CharField(max_length=255)
     estado = models.BooleanField()
     id_persona = models.ForeignKey(
-        Persona, on_delete=models.CASCADE, db_column='id_persona'
+        Persona, on_delete=models.CASCADE, db_column='id_persona', null=True, blank=True
     )
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
+
+    objects = UsuarioManager()
+
+    # Campos requeridos por AbstractBaseUser
+    USERNAME_FIELD = 'nombre_usuario'
+    REQUIRED_FIELDS = ['email_institucional']
 
     class Meta:
         db_table = 'usuario'
@@ -82,6 +136,22 @@ class Usuario(AbstractBaseUser):
         verbose_name_plural = "Usuarios"
 
     def __str__(self):
+        return self.nombre_usuario
+
+    def get_full_name(self):
+        """Retorna el nombre completo de la persona asociada."""
+        if self.id_persona:
+            return self.id_persona.obtener_nombre_completo()
+        return self.nombre_usuario
+
+    def get_short_name(self):
+        """Retorna el primer nombre de la persona asociada."""
+        if self.id_persona:
+            return (
+                self.id_persona.nombres.split()[0]
+                if self.id_persona.nombres
+                else self.nombre_usuario
+            )
         return self.nombre_usuario
 
 

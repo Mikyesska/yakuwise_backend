@@ -1,0 +1,32 @@
+[tool.black]
+line-length = 88
+target-version = ['py311']
+skip-string-normalization = true
+exclude = '''
+/(
+    entorno_yakuwise
+  | \.git
+  | __pycache__
+  | migrations
+  | venv
+  | \.venv
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+skip_glob = ["entorno_yakuwise/**", ".git/**", "__pycache__/**", "migrations/**"]
+
+[tool.flake8]
+max-line-length = 88
+exclude = [
+    ".git",
+    "__pycache__",
+    "migrations",
+    "venv",
+    ".venv",
+    "entorno_yakuwise"
+]
+ignore = ["E203", "W503"]

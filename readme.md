@@ -122,6 +122,7 @@ Ejecutar ```pip install -r requirements.txt```
 
 * (PARA LEVANTAR EN MODO DESARROLLO):
     ```pip install -r requirements_dev.txt``` 
+    ```pip install -r requirements.txt``` 
 
 * Para utilizar los formateadores:
     ```isort . ```

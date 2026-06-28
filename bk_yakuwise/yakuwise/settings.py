@@ -42,6 +42,9 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
+# Custom user model
+AUTH_USER_MODEL = 'security.Usuario'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -158,3 +161,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 CORS_ALLOW_CREDENTIALS = env.bool("CORS_ALLOW_CREDENTIALS", default=False)
+
+# Email configuration
+EMAIL_BACKEND = env(
+    'EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend'
+)
+EMAIL_HOST = env('EMAIL_HOST', default='localhost')
+EMAIL_PORT = env('EMAIL_PORT', default=25)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=False)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@yakuwise.com')
+FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:4200')

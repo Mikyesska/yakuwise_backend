@@ -1,130 +1,47 @@
-# CREACIÓN DE PROYECTO BACKEND CON DJANGO Y DRF
+# Yakuwise Backend
 
-## 1. Instalación de python en windows
-* Descargar [python 3.14.2](https://www.python.org/downloads/windows/)
-* Recordar activar check para las variables de entorno.
-* Instalar python.
-* Verificar la version instalada con ```python --version```
+Backend Django + Django Rest Framework para el proyecto Yakuwise.
 
-## 2. Verificar que venv está instalado y accesible
-*   Digitar el siguiente comando ```python -m venv --help```
+## Documentación
 
-    A partir de Python 3.3, venv viene incluido por defecto, así que si tienes Python instalado.
-        
-    Si venv está disponible, verás la documentación del módulo. Si no, recibirás un error como No module named venv.
+- **[SETUP.md](SETUP.md)** - Guía para crear el proyecto desde cero
+- **[GETTING_STARTED.md](GETTING_STARTED.md)** - Guía para desarrolladores (levantar el proyecto existente)
 
-## 3. Crear el entorno virtual entorno_yakuwise
-*   Ejecutar el siguiente comando ```python -m venv nombre_de_entorno```
+## Resumen rápido
 
-## 4. Activar entorno virtual
-*   Ejecutar el siguiente comando ```.\nombre_de_entorno\Scripts\activate```
+### Para levantar el proyecto (desarrolladores)
 
-## 5. Instalar django 5.2.9
-*   Ejecutar el siguiente comando ```py -m pip install Django==5.2.9```
+1. Clonar el repositorio
+2. Crear y activar entorno virtual: `python -m venv entorno_yakuwise` y `.\entorno_yakuwise\Scripts\activate`
+3. Instalar dependencias: `pip install -r requirements.txt` y `pip install -r requirements_dev.txt`
+4. Configurar `.env` (copiar de `.env_example`)
+5. Crear base de datos en PostgreSQL
+6. Ejecutar migraciones: `python manage.py makemigrations` y `python manage.py migrate`
+7. Cargar fixtures: `python manage.py loaddata fixtures/rol.json fixtures/tipo_documento.json`
+8. Ejecutar servidor: `python manage.py runserver`
 
-## 6. Crear un proyecto con django
-* Ejecuta el siguiente comandodo ```django-admin startproject backend```
+## Estructura del proyecto
 
-## 7. Genera el archivo requirements.txt
-* Ubicarse en el proyecto creado
-* Crea un archivo con las librerías utilizadas en el entorno_proyecto
-* Ejecutar el siguiente comando ```python -m pip freeze -> requirements.txt```
+```
+yakuwise_backend/
+├── bk_yakuwise/           # Proyecto Django principal
+│   ├── apps/              # Aplicaciones internas
+│   │   ├── security/      # Autenticación y roles
+│   │   ├── cliente/       # Gestión de clientes
+│   │   └── monitoreoparametro/
+│   ├── fixtures/          # Datos iniciales (rol, tipo_documento)
+│   ├── manage.py
+│   └── yakuwise/          # Configuración
+├── entorno_yakuwise/      # Entorno virtual
+├── requirements.txt       # Dependencias de producción
+├── requirements_dev.txt   # Dependencias de desarrollo
+└── .env_example           # Ejemplo de variables de entorno
+```
 
-## 8. Crear una aplicación en nuestro proyecto
-* Desde su terminal (CMD o PowerShell), navegue hasta el directorio raíz de su proyecto Django (donde se encuentra el archivo manage.py) y ejecute el siguiente comando:
-    ```python manage.py startapp users```
+## Tecnologías
 
-* Agregar a INSTALLED_APPS de settings.py de la carpeta del proyecto la nueva aplicación creada denominada ```'users'```.
-
-## 9. Instalar Django Rest Framework 3.16.1
-* Ejecutar el siguiente comando ```pip install djangorestframework```
-
-* Debes avisarle a Django que ahora cuenta con las funcionalidades de DRF. Abre tu archivo config/settings.py y busca la lista INSTALLED_APPS: 
-    ```
-        INSTALLED_APPS = [
-        ...
-        'django.contrib.staticfiles',
-        'rest_framework',  # <--- Agrega esta línea
-        'apps.usuarios',   # Asegúrate de que tus apps locales estén aquí
-        ]
-    ```
-
-## 10. Crear los archivos faltantes:
-Crear los archivos ```urls.py``` y ```serializer.py``` en la aplicacion denominada usuarios.
-
-## 11. Actualizar los requerimientos del proyecto
-* ### 11.1. Actualizar requirements.txt
-    Ejecutar el siguiente comando  ```pip freeze -> requirements.txt```
-
-* ### 11.2. Listar librerías instaladas en el proyecto
-    Para ello, digitar el siguiente comando: ```pip list```  que  es lista los paquetes con sus números de versión.
-
-## 12. Instalar todos los requerimientos (PARA LEVANTAR EN MODO DESARROLLO):
-Ejecutar ```pip install -r requirements.txt``` 
-
-## 13. Conexion postgresql y django
-* Previamente, instalar postgresql, crear la base de datos.
-
-* Instalar psycopg 3, ejecutando  ```pip install "psycopg[binary]"```
-
-* Actualizar los requerimientos  ```pip freeze -> requirements.txt```
-
-* Listar ```pip freeze```
-
-    | Package             | Version|
-    |-------------------- |--------|
-    | asgiref             | 3.11.0 |
-    | Django              | 5.2.9  |
-    | djangorestframework | 3.16.1 |
-    | pip                 | 25.3   |
-    | psycopg             | 3.3.2  |
-    | psycopg-binary      | 3.3.2  |
-    | sqlparse            | 0.5.4  |
-    | tzdata              | 2025.3 |
-
-* Crear la base de datos y sus tablas en postgreSQL
-
-* En tu proyecto Django, asegúrate de tener instalado el adaptador necesario y configurar el archivo settings.py:
-    ```
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'tu_nombre_db',
-                'USER': 'tu_usuario',
-                'PASSWORD': 'tu_password',
-                'HOST': 'localhost',
-                'PORT': '5432',
-            }
-        }
-    ```
-## 13. Crear modelos en models.py de la aplicacion creada
-
-## 14. Ejecutar la migracion las tablas 
-* Primero ejecutar esto ```python manage.py makemigrations```
-
-* Ejecutar el siguiente comando: ```python manage.py migrate```
-
-## 15. Ejecutar el proyecto
-* Navegue al directorio donde se encuentra el archivo manage.py y ejecute:
-
-    ```python manage.py runserver ```
-
-## 16. Crear el archivo .gitignore
-* Ignorar la carpeta del entorno virtual y otros
-    ```venv/```
-
-    ```env/ ```
-
-## 16. Instalar formateadores de código
-* Para instalar Isort, black y flake8
-    ```pip install isort black flake8 ```
-    ```pip freeze -> requirements_dev.txt```
-
-* (PARA LEVANTAR EN MODO DESARROLLO):
-    ```pip install -r requirements_dev.txt``` 
-    ```pip install -r requirements.txt``` 
-
-* Para utilizar los formateadores:
-    ```isort . ```
-    ```black . ```
-    ```flake8 . ```
+- Python 3.14.2
+- Django 5.2.9
+- Django Rest Framework 3.16.1
+- PostgreSQL
+- psycopg3

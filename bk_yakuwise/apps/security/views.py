@@ -5,8 +5,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Rol, Usuario
-from .serializers import LoginSerializer, RolSerializer, UsuarioSerializer
+from .models import Rol, TipoDocumento, Usuario
+from .serializers import (
+    LoginSerializer,
+    RolSerializer,
+    TipoDocumentoSerializer,
+    UsuarioSerializer,
+)
 
 
 class CustomPagination(PageNumberPagination):
@@ -92,6 +97,27 @@ class UsuarioViewSet(viewsets.ModelViewSet):
             return Response(
                 {"error": "Datos inválidos", "detalles": e.detail},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": "Error interno del servidor", "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class TipoDocumentoViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TipoDocumento.objects.filter(estado=True)
+    serializer_class = TipoDocumentoSerializer
+    permission_classes = [AllowAny]
+    pagination_class = None
+
+    def list(self, request, *args, **kwargs):
+        try:
+            queryset = self.filter_queryset(self.get_queryset())
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(
+                {"message": "Tipos de documento obtenidos exitosamente", "data": serializer.data},
+                status=status.HTTP_200_OK,
             )
         except Exception as e:
             return Response(

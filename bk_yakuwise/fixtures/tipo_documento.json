@@ -1,42 +1,42 @@
 [
-{
-  "model": "security.tipodocumento",
-  "pk": 1,
-  "fields": {
-    "nombre_tipo_documento": "DNI",
-    "estado": true
+  {
+    "model": "security.tipodocumento",
+    "pk": 1,
+    "fields": {
+      "nombre_tipo_documento": "DOCUMENTO NACIONAL DE IDENTIDAD",
+      "estado": true
+    }
+  },
+  {
+    "model": "security.tipodocumento",
+    "pk": 2,
+    "fields": {
+      "nombre_tipo_documento": "CARNET DE EXTRANJERÍA",
+      "estado": true
+    }
+  },
+  {
+    "model": "security.tipodocumento",
+    "pk": 3,
+    "fields": {
+      "nombre_tipo_documento": "PERMISO TEMPORAL DE PERMANENCIA",
+      "estado": true
+    }
+  },
+  {
+    "model": "security.tipodocumento",
+    "pk": 4,
+    "fields": {
+      "nombre_tipo_documento": "PASAPORTE",
+      "estado": true
+    }
+  },
+  {
+    "model": "security.tipodocumento",
+    "pk": 5,
+    "fields": {
+      "nombre_tipo_documento": "OTROS/SIN DOCUMENTO",
+      "estado": true
+    }
   }
-},
-{
-  "model": "security.tipodocumento",
-  "pk": 2,
-  "fields": {
-    "nombre_tipo_documento": "CARNET DE EXTRANJERÍA",
-    "estado": true
-  }
-},
-{
-  "model": "security.tipodocumento",
-  "pk": 3,
-  "fields": {
-    "nombre_tipo_documento": "PERMISO TEMPORAL DE PERMANENCIA",
-    "estado": true
-  }
-},
-{
-  "model": "security.tipodocumento",
-  "pk": 4,
-  "fields": {
-    "nombre_tipo_documento": "PASAPORTE",
-    "estado": true
-  }
-},
-{
-  "model": "security.tipodocumento",
-  "pk": 5,
-  "fields": {
-    "nombre_tipo_documento": "OTROS/SIN DOCUMENTO",
-    "estado": true
-  }
-}
 ]

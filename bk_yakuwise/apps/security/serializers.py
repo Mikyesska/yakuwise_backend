@@ -320,3 +320,77 @@ class LoginSerializer(serializers.Serializer):
         raise serializers.ValidationError(
             "Se requieren nombre de usuario y contraseña."
         )
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    id_usuario = serializers.IntegerField()
+
+    def validate_id_usuario(self, value):
+        try:
+            usuario = Usuario.objects.get(id_usuario=value)
+            if not usuario.estado:
+                raise serializers.ValidationError("El usuario está inactivo.")
+            return value
+        except Usuario.DoesNotExist:
+            raise serializers.ValidationError("El usuario no existe.")
+
+    def send_reset_password_email(self, usuario, password):
+        """Envía email con la nueva contraseña del usuario."""
+        try:
+            frontend_url = getattr(settings, 'FRONTEND_URL', 'http://localhost:4200')
+            login_url = f"{frontend_url}/login"
+
+            subject = "Yakuwise - Contraseña reestablecida"
+            message = f"""
+            Hola {usuario.id_persona.nombres},
+
+            Tu contraseña ha sido reestablecida exitosamente en el sistema Yakuwise.
+
+            Tus credenciales de acceso son:
+            - Usuario: {usuario.nombre_usuario}
+            - Contraseña: {password}
+
+            Puedes acceder al sistema en: {login_url}
+
+            Por seguridad, te recomendamos cambiar tu contraseña
+            después del inicio de sesión.
+
+            Saludos,
+            El equipo de Yakuwise
+            """
+
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@yakuwise.com')
+            recipient_list = [
+                usuario.id_persona.correo_personal,
+                usuario.email_institucional,
+            ]
+
+            send_mail(
+                subject,
+                message,
+                from_email,
+                recipient_list,
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(f"Error al enviar email de reestablecimiento: {str(e)}")
+
+    def save(self):
+        id_usuario = self.validated_data['id_usuario']
+        usuario = Usuario.objects.get(id_usuario=id_usuario)
+
+        # Generar nueva contraseña: 01 + número_documento
+        numero_documento = usuario.id_persona.numero_documento
+        new_password = f"01{numero_documento}"
+
+        # Encriptar la nueva contraseña
+        hashed_password = make_password(new_password)
+
+        # Actualizar la contraseña del usuario
+        usuario.password = hashed_password
+        usuario.save()
+
+        # Enviar email con la nueva contraseña
+        self.send_reset_password_email(usuario, new_password)
+
+        return usuario

@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from .models import Rol, TipoDocumento, Usuario
 from .serializers import (
     LoginSerializer,
+    ResetPasswordSerializer,
     RolSerializer,
     TipoDocumentoSerializer,
     UsuarioSerializer,
@@ -42,6 +43,30 @@ class LoginView(APIView):
             )
         return Response(
             {"error": "Credenciales inválidas", "detalles": serializer.errors},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+class ResetPasswordView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response(
+                {
+                    "message": "Contraseña reestablecida exitosamente",
+                    "data": {
+                        "id_usuario": usuario.id_usuario,
+                        "nombre_usuario": usuario.nombre_usuario,
+                        "email_institucional": usuario.email_institucional,
+                    },
+                },
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"error": "Error al reestablecer contraseña", "detalles": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
 

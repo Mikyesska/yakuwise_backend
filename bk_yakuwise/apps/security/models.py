@@ -121,6 +121,8 @@ class Usuario(AbstractBaseUser):
     )
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    pass_actualizado = models.BooleanField(default=False)
+    last_login = models.DateTimeField(null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 

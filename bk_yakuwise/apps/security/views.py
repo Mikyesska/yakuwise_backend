@@ -1,4 +1,9 @@
+from django.contrib.auth import login
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import filters, status, viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -11,6 +16,7 @@ from .serializers import (
     ResetPasswordSerializer,
     RolSerializer,
     TipoDocumentoSerializer,
+    UpdatePasswordSerializer,
     UsuarioSerializer,
 )
 
@@ -21,6 +27,7 @@ class CustomPagination(PageNumberPagination):
     max_page_size = 100  # límite máximo para evitar abusos
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -28,6 +35,8 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']
+            login(request, user)
+            token, created = Token.objects.get_or_create(user=user)
             return Response(
                 {
                     "message": "Login exitoso",
@@ -37,12 +46,44 @@ class LoginView(APIView):
                         "email_institucional": user.email_institucional,
                         "nombre_completo": user.get_full_name(),
                         "last_login": user.last_login,
+                        "pass_actualizado": user.pass_actualizado,
+                        "token": token.key,
+                    },
+                },
+                status=status.HTTP_200_OK,
+            )
+        print(f"Errores de validación: {serializer.errors}")
+        return Response(
+            {"error": "Credenciales inválidas", "detalles": serializer.errors},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UpdatePasswordView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = UpdatePasswordSerializer(
+            data=request.data, context={'request': request}
+        )
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response(
+                {
+                    "message": "Contraseña actualizada exitosamente",
+                    "data": {
+                        "id_usuario": usuario.id_usuario,
+                        "nombre_usuario": usuario.nombre_usuario,
+                        "email_institucional": usuario.email_institucional,
+                        "pass_actualizado": usuario.pass_actualizado,
                     },
                 },
                 status=status.HTTP_200_OK,
             )
         return Response(
-            {"error": "Credenciales inválidas", "detalles": serializer.errors},
+            {"error": "Error al actualizar contraseña", "detalles": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -66,7 +107,10 @@ class ResetPasswordView(APIView):
                 status=status.HTTP_200_OK,
             )
         return Response(
-            {"error": "Error al reestablecer contraseña", "detalles": serializer.errors},
+            {
+                "error": "Error al reestablecer contraseña",
+                "detalles": serializer.errors,
+            },
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -141,7 +185,10 @@ class TipoDocumentoViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = self.filter_queryset(self.get_queryset())
             serializer = self.get_serializer(queryset, many=True)
             return Response(
-                {"message": "Tipos de documento obtenidos exitosamente", "data": serializer.data},
+                {
+                    "message": "Tipos de documento obtenidos exitosamente",
+                    "data": serializer.data,
+                },
                 status=status.HTTP_200_OK,
             )
         except Exception as e:

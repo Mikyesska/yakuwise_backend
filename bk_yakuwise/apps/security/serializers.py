@@ -388,9 +388,54 @@ class ResetPasswordSerializer(serializers.Serializer):
 
         # Actualizar la contraseña del usuario
         usuario.password = hashed_password
+        usuario.pass_actualizado = False
         usuario.save()
 
         # Enviar email con la nueva contraseña
         self.send_reset_password_email(usuario, new_password)
+
+        return usuario
+
+
+class UpdatePasswordSerializer(serializers.Serializer):
+    password_actual = serializers.CharField(write_only=True)
+    password_nueva = serializers.CharField(write_only=True)
+    password_confirmacion = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        password_nueva = data.get('password_nueva')
+        password_confirmacion = data.get('password_confirmacion')
+
+        if password_nueva != password_confirmacion:
+            raise serializers.ValidationError(
+                {"password_confirmacion": "Las contraseñas nuevas no coinciden."}
+            )
+
+        if len(password_nueva) < 8:
+            raise serializers.ValidationError(
+                {"password_nueva": "La contraseña debe tener al menos 8 caracteres."}
+            )
+
+        return data
+
+    def validate_password_actual(self, value):
+        request = self.context.get('request')
+        if not request or not request.user:
+            raise serializers.ValidationError("Usuario no autenticado.")
+
+        usuario = request.user
+        if not usuario.check_password(value):
+            raise serializers.ValidationError("La contraseña actual es incorrecta.")
+
+        return value
+
+    def save(self):
+        request = self.context.get('request')
+        usuario = request.user
+
+        password_nueva = self.validated_data['password_nueva']
+        usuario.set_password(password_nueva)
+        usuario.pass_actualizado = True
+        usuario.save()
 
         return usuario

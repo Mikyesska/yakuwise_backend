@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Rol, TipoDocumento, Usuario
+from .models import Rol, TipoDocumento, Usuario, UsuarioRol
 from .serializers import (
     LoginSerializer,
     ResetPasswordSerializer,
@@ -36,7 +36,17 @@ class LoginView(APIView):
         if serializer.is_valid():
             user = serializer.validated_data['user']
             login(request, user)
-            token, created = Token.objects.get_or_create(user=user)
+            token, _ = Token.objects.get_or_create(user=user)
+            
+            # Obtener roles del usuario
+            usuario_roles = UsuarioRol.objects.filter(id_usuario=user, estado=True)
+            roles = []
+            for ur in usuario_roles:
+                roles.append({
+                    "id_rol": ur.id_rol.id_rol,
+                    "nombre_rol": ur.id_rol.nombre_rol
+                })
+            
             return Response(
                 {
                     "message": "Login exitoso",
@@ -45,9 +55,13 @@ class LoginView(APIView):
                         "nombre_usuario": user.nombre_usuario,
                         "email_institucional": user.email_institucional,
                         "nombre_completo": user.get_full_name(),
+                        "nombre": user.get_nombre(),
+                        "apellido": user.get_apellido(),
+                        "genero": user.get_genero(),
                         "last_login": user.last_login,
                         "pass_actualizado": user.pass_actualizado,
                         "token": token.key,
+                        "roles": roles,
                     },
                 },
                 status=status.HTTP_200_OK,

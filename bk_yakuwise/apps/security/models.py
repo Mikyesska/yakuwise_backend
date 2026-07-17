@@ -99,7 +99,7 @@ class Persona(models.Model):
         Retorna el nombre completo de la persona, combinando todos los campos.
         """
         # Se usa self.campo para acceder a los valores de la instancia actual
-        partes_nombre = [self.apellido_paterno, self.apellido_materno, self.nombres]
+        partes_nombre = [self.nombres,self.apellido_paterno, self.apellido_materno]
 
         nombre_completo = " ".join(partes_nombre)
 
@@ -155,6 +155,24 @@ class Usuario(AbstractBaseUser):
                 else self.nombre_usuario
             )
         return self.nombre_usuario
+
+    def get_nombre(self):
+        """Retorna el nombre de la persona asociada."""
+        if self.id_persona:
+            return self.id_persona.nombres
+        return self.nombre_usuario
+
+    def get_apellido(self):
+        """Retorna el apellido paterno de la persona asociada."""
+        if self.id_persona:
+            return self.id_persona.apellido_paterno
+        return ""
+
+    def get_genero(self):
+        """Retorna el género de la persona asociada."""
+        if self.id_persona:
+            return self.id_persona.genero
+        return ""
 
 
 # Modelo rol

@@ -80,9 +80,9 @@ class Persona(models.Model):
     )
     nombres = models.CharField(max_length=150)
     apellido_paterno = models.CharField(max_length=150)
-    apellido_materno = models.CharField(max_length=150, null=True)
+    apellido_materno = models.CharField(max_length=150, blank=True, default='')
     genero = models.CharField(max_length=1)
-    telefono = models.CharField(max_length=15, blank=True, null=True)
+    telefono = models.CharField(max_length=15, blank=True, default='')
     correo_personal = models.CharField(max_length=200)
     estado = models.BooleanField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
@@ -99,7 +99,7 @@ class Persona(models.Model):
         Retorna el nombre completo de la persona, combinando todos los campos.
         """
         # Se usa self.campo para acceder a los valores de la instancia actual
-        partes_nombre = [self.nombres,self.apellido_paterno, self.apellido_materno]
+        partes_nombre = [self.nombres, self.apellido_paterno, self.apellido_materno]
 
         nombre_completo = " ".join(partes_nombre)
 
@@ -125,6 +125,9 @@ class Usuario(AbstractBaseUser):
     last_login = models.DateTimeField(null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
+    intentos_fallidos = models.IntegerField(default=0)
+    ultimo_intento_fallido = models.DateTimeField(null=True, blank=True)
+    bloqueado_hasta = models.DateTimeField(null=True, blank=True)
 
     objects = UsuarioManager()
 

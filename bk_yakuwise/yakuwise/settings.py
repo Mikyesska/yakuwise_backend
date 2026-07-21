@@ -71,6 +71,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    # CSRF middleware deshabilitado porque la API usa autenticación
+    # por token (TokenAuthentication). Las APIs REST no dependen de
+    # cookies de sesión,por lo que CSRF no es necesario.
+    # La autenticación se maneja mediante tokens en el header Authorization.
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -197,3 +201,14 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@yakuwise.com')
 FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:4200')
+PASSWORD_PREFIX = env('PASSWORD_PREFIX', default='01')
+MIN_PASSWORD_LENGTH = env('MIN_PASSWORD_LENGTH', default=8)
+ERROR_PASSWORDS_NO_COINCIDEN = env(
+    'ERROR_PASSWORDS_NO_COINCIDEN', default='Las contraseñas nuevas no coinciden.'
+)
+ERROR_PASSWORD_INCORRECTA = env(
+    'ERROR_PASSWORD_INCORRECTA', default='La contraseña actual es incorrecta.'
+)
+ERROR_USUARIO_NO_AUTENTICADO = env(
+    'ERROR_USUARIO_NO_AUTENTICADO', default='Usuario no autenticado.'
+)

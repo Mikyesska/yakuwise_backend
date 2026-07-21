@@ -1,10 +1,11 @@
 import unicodedata
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
+from django.utils import timezone
 from rest_framework import serializers
 
 from .models import Persona, Rol, TipoDocumento, Usuario, UsuarioRol
@@ -104,13 +105,13 @@ class UsuarioSerializer(serializers.ModelSerializer):
         return username
 
     def generate_password(self, numero_documento):
-        """Genera contraseña: '01' + número de documento."""
-        return f"01{numero_documento}"
+        """Genera contraseña: prefijo + número de documento."""
+        return f"{settings.PASSWORD_PREFIX}{numero_documento}"
 
     def send_credentials_email(self, usuario, password):
         """Envía email con las credenciales del usuario."""
         try:
-            frontend_url = getattr(settings, 'FRONTEND_URL', 'http://localhost:4200')
+            frontend_url = settings.FRONTEND_URL
             login_url = f"{frontend_url}/login"
 
             subject = "Bienvenido a Yakuwise - Tus credenciales de acceso"
@@ -149,51 +150,51 @@ class UsuarioSerializer(serializers.ModelSerializer):
             # No fallar la creación del usuario si el email no se envía
             print(f"Error al enviar email de credenciales: {str(e)}")
 
-    def create(self, validated_data):
-        persona_data = validated_data.pop('id_persona')
-        id_roles = validated_data.pop('id_roles', None)
-
-        # Buscar si ya existe una persona con el mismo tipo y número de documento
+    def _get_or_create_persona(self, persona_data):
+        """Obtiene o crea una persona basada en tipo y número de documento."""
         persona = Persona.objects.filter(
             id_tipo_documento=persona_data.get('id_tipo_documento'),
             numero_documento=persona_data.get('numero_documento'),
         ).first()
 
-        if persona:
-            # Verificar si ya existe un usuario para esta persona
-            usuario_existente = Usuario.objects.filter(id_persona=persona).first()
-
-            if usuario_existente:
-                # Actualizar datos de la persona existente
-                for attr, value in persona_data.items():
-                    setattr(persona, attr, value)
-                persona.save()
-
-                # Actualizar roles si se proporcionan
-                if id_roles:
-                    # Eliminar roles existentes
-                    UsuarioRol.objects.filter(id_usuario=usuario_existente).delete()
-                    # Crear nuevos roles
-                    for rol_id in id_roles:
-                        try:
-                            rol = Rol.objects.get(id_rol=rol_id)
-                            UsuarioRol.objects.create(
-                                id_usuario=usuario_existente, id_rol=rol, estado=True
-                            )
-                        except Rol.DoesNotExist:
-                            raise serializers.ValidationError(
-                                f"El rol con id {rol_id} no existe."
-                            )
-
-                return usuario_existente
-            else:
-                # Actualizar datos de la persona existente
-                for attr, value in persona_data.items():
-                    setattr(persona, attr, value)
-                persona.save()
-        else:
-            # Crear nueva Persona
+        if not persona:
             persona = Persona.objects.create(**persona_data)
+        else:
+            self._update_persona(persona, persona_data)
+
+        return persona
+
+    def _update_persona(self, persona, persona_data):
+        """Actualiza los datos de una persona existente."""
+        for attr, value in persona_data.items():
+            setattr(persona, attr, value)
+        persona.save()
+
+    def _assign_roles(self, usuario, id_roles):
+        """Asigna roles a un usuario."""
+        if not id_roles:
+            return
+
+        UsuarioRol.objects.filter(id_usuario=usuario).delete()
+        for rol_id in id_roles:
+            try:
+                rol = Rol.objects.get(id_rol=rol_id)
+                UsuarioRol.objects.create(id_usuario=usuario, id_rol=rol, estado=True)
+            except Rol.DoesNotExist:
+                raise serializers.ValidationError(f"El rol con id {rol_id} no existe.")
+
+    def create(self, validated_data):
+        persona_data = validated_data.pop('id_persona')
+        id_roles = validated_data.pop('id_roles', None)
+
+        # Obtener o crear persona
+        persona = self._get_or_create_persona(persona_data)
+
+        # Verificar si ya existe un usuario para esta persona
+        usuario_existente = Usuario.objects.filter(id_persona=persona).first()
+        if usuario_existente:
+            self._assign_roles(usuario_existente, id_roles)
+            return usuario_existente
 
         # Generar username
         username = self.generate_username(
@@ -212,18 +213,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
             **validated_data,
         )
 
-        # Asignar roles si se proporcionan
-        if id_roles:
-            for rol_id in id_roles:
-                try:
-                    rol = Rol.objects.get(id_rol=rol_id)
-                    UsuarioRol.objects.create(
-                        id_usuario=usuario, id_rol=rol, estado=True
-                    )
-                except Rol.DoesNotExist:
-                    raise serializers.ValidationError(
-                        f"El rol con id {rol_id} no existe."
-                    )
+        # Asignar roles
+        self._assign_roles(usuario, id_roles)
 
         # Enviar email con las credenciales
         self.send_credentials_email(usuario, password)
@@ -241,25 +232,11 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
         # Actualizar persona si se proporcionan datos
         if persona_data and instance.id_persona:
-            for attr, value in persona_data.items():
-                setattr(instance.id_persona, attr, value)
-            instance.id_persona.save()
+            self._update_persona(instance.id_persona, persona_data)
 
         # Actualizar roles si se proporcionan
         if id_roles is not None:
-            # Eliminar roles existentes
-            UsuarioRol.objects.filter(id_usuario=instance).delete()
-            # Crear nuevos roles
-            for rol_id in id_roles:
-                try:
-                    rol = Rol.objects.get(id_rol=rol_id)
-                    UsuarioRol.objects.create(
-                        id_usuario=instance, id_rol=rol, estado=True
-                    )
-                except Rol.DoesNotExist:
-                    raise serializers.ValidationError(
-                        f"El rol con id {rol_id} no existe."
-                    )
+            self._assign_roles(instance, id_roles)
 
         return instance
 
@@ -296,24 +273,75 @@ class LoginSerializer(serializers.Serializer):
     nombre_usuario = serializers.CharField()
     password = serializers.CharField()
 
+    def _check_if_user_is_blocked(self, user):
+        """Verifica si el usuario está bloqueado."""
+        if user.bloqueado_hasta and user.bloqueado_hasta > timezone.now():
+            raise serializers.ValidationError("Cuenta bloqueada.")
+
+    def _reset_failed_attempts_if_expired(self, user):
+        """Reinicia el contador de intentos fallidos si pasaron 5 minutos."""
+        if user.ultimo_intento_fallido:
+            tiempo_transcurrido = timezone.now() - user.ultimo_intento_fallido
+            if tiempo_transcurrido > timedelta(minutes=5):
+                user.intentos_fallidos = 0
+                user.ultimo_intento_fallido = None
+                user.bloqueado_hasta = None
+                user.save()
+
+    def _handle_failed_login(self, user):
+        """Maneja un intento de login fallido."""
+        user.intentos_fallidos += 1
+        user.ultimo_intento_fallido = timezone.now()
+
+        if user.intentos_fallidos >= 3:
+            user.bloqueado_hasta = timezone.now() + timedelta(minutes=5)
+            user.save()
+            raise serializers.ValidationError("Cuenta bloqueada.")
+        elif user.intentos_fallidos == 2:
+            user.save()
+            raise serializers.ValidationError(
+                "Le queda 1 intento. Asegurese de ingresar la "
+                "contraseña correcta o se bloqueará su cuenta"
+            )
+        elif user.intentos_fallidos == 1:
+            user.save()
+            raise serializers.ValidationError("Le quedan dos intentos")
+
+        user.save()
+        raise serializers.ValidationError("Credenciales inválidas.")
+
+    def _handle_successful_login(self, user):
+        """Maneja un login exitoso, reiniciando contadores."""
+        user.intentos_fallidos = 0
+        user.ultimo_intento_fallido = None
+        user.bloqueado_hasta = None
+        user.last_login = datetime.now()
+        user.save()
+
     def validate(self, data):
         nombre_usuario = data.get('nombre_usuario')
         password = data.get('password')
 
         if nombre_usuario and password:
-            # Autenticar usuario
-            user = authenticate(username=nombre_usuario, password=password)
-
-            if not user:
+            try:
+                user = Usuario.objects.get(nombre_usuario=nombre_usuario)
+            except Usuario.DoesNotExist:
                 raise serializers.ValidationError("Credenciales inválidas.")
+
+            self._check_if_user_is_blocked(user)
+            self._reset_failed_attempts_if_expired(user)
+
+            authenticated_user = authenticate(
+                username=nombre_usuario, password=password
+            )
+
+            if not authenticated_user:
+                self._handle_failed_login(user)
 
             if not user.estado:
                 raise serializers.ValidationError("El usuario está inactivo.")
 
-            # Actualizar last_login
-            user.last_login = datetime.now()
-            user.save()
-
+            self._handle_successful_login(user)
             data['user'] = user
             return data
 
@@ -337,7 +365,7 @@ class ResetPasswordSerializer(serializers.Serializer):
     def send_reset_password_email(self, usuario, password):
         """Envía email con la nueva contraseña del usuario."""
         try:
-            frontend_url = getattr(settings, 'FRONTEND_URL', 'http://localhost:4200')
+            frontend_url = settings.FRONTEND_URL
             login_url = f"{frontend_url}/login"
 
             subject = "Yakuwise - Contraseña reestablecida"
@@ -379,9 +407,9 @@ class ResetPasswordSerializer(serializers.Serializer):
         id_usuario = self.validated_data['id_usuario']
         usuario = Usuario.objects.get(id_usuario=id_usuario)
 
-        # Generar nueva contraseña: 01 + número_documento
+        # Generar nueva contraseña: prefijo + número_documento
         numero_documento = usuario.id_persona.numero_documento
-        new_password = f"01{numero_documento}"
+        new_password = f"{settings.PASSWORD_PREFIX}{numero_documento}"
 
         # Encriptar la nueva contraseña
         hashed_password = make_password(new_password)
@@ -408,12 +436,17 @@ class UpdatePasswordSerializer(serializers.Serializer):
 
         if password_nueva != password_confirmacion:
             raise serializers.ValidationError(
-                {"password_confirmacion": "Las contraseñas nuevas no coinciden."}
+                {"password_confirmacion": settings.ERROR_PASSWORDS_NO_COINCIDEN}
             )
 
-        if len(password_nueva) < 8:
+        if len(password_nueva) < settings.MIN_PASSWORD_LENGTH:
             raise serializers.ValidationError(
-                {"password_nueva": "La contraseña debe tener al menos 8 caracteres."}
+                {
+                    "password_nueva": (
+                        f"La contraseña debe tener al menos "
+                        f"{settings.MIN_PASSWORD_LENGTH} caracteres."
+                    )
+                }
             )
 
         return data
@@ -421,11 +454,11 @@ class UpdatePasswordSerializer(serializers.Serializer):
     def validate_password_actual(self, value):
         request = self.context.get('request')
         if not request or not request.user:
-            raise serializers.ValidationError("Usuario no autenticado.")
+            raise serializers.ValidationError(settings.ERROR_USUARIO_NO_AUTENTICADO)
 
         usuario = request.user
         if not usuario.check_password(value):
-            raise serializers.ValidationError("La contraseña actual es incorrecta.")
+            raise serializers.ValidationError(settings.ERROR_PASSWORD_INCORRECTA)
 
         return value
 

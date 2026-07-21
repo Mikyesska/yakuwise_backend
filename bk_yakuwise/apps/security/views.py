@@ -20,6 +20,9 @@ from .serializers import (
     UsuarioSerializer,
 )
 
+ERROR_DATOS_INVALIDOS = "Datos inválidos"
+ERROR_INTERNO_SERVIDOR = "Error interno del servidor"
+
 
 class CustomPagination(PageNumberPagination):
     page_size = 10  # valor por defecto
@@ -37,16 +40,15 @@ class LoginView(APIView):
             user = serializer.validated_data['user']
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
-            
+
             # Obtener roles del usuario
             usuario_roles = UsuarioRol.objects.filter(id_usuario=user, estado=True)
             roles = []
             for ur in usuario_roles:
-                roles.append({
-                    "id_rol": ur.id_rol.id_rol,
-                    "nombre_rol": ur.id_rol.nombre_rol
-                })
-            
+                roles.append(
+                    {"id_rol": ur.id_rol.id_rol, "nombre_rol": ur.id_rol.nombre_rol}
+                )
+
             return Response(
                 {
                     "message": "Login exitoso",
@@ -66,9 +68,14 @@ class LoginView(APIView):
                 },
                 status=status.HTTP_200_OK,
             )
-        print(f"Errores de validación: {serializer.errors}")
+
+        # Extraer mensaje de error específico del serializer
+        error_message = "Credenciales inválidas"
+        if 'non_field_errors' in serializer.errors:
+            error_message = serializer.errors['non_field_errors'][0]
+
         return Response(
-            {"error": "Credenciales inválidas", "detalles": serializer.errors},
+            {"error": error_message},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -154,12 +161,12 @@ class UsuarioViewSet(viewsets.ModelViewSet):
             )
         except ValidationError as e:
             return Response(
-                {"error": "Datos inválidos", "detalles": e.detail},
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as e:
             return Response(
-                {"error": "Error interno del servidor", "detalles": str(e)},
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -178,12 +185,12 @@ class UsuarioViewSet(viewsets.ModelViewSet):
             )
         except ValidationError as e:
             return Response(
-                {"error": "Datos inválidos", "detalles": e.detail},
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as e:
             return Response(
-                {"error": "Error interno del servidor", "detalles": str(e)},
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -207,7 +214,7 @@ class TipoDocumentoViewSet(viewsets.ReadOnlyModelViewSet):
             )
         except Exception as e:
             return Response(
-                {"error": "Error interno del servidor", "detalles": str(e)},
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -232,13 +239,13 @@ class RolViewSet(viewsets.ModelViewSet):
         except ValidationError as e:
             # --- 400 Bad Request ---
             return Response(
-                {"error": "Datos inválidos", "detalles": e.detail},
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as e:
             # --- 500 Internal Server Error ---
             return Response(
-                {"error": "Error interno del servidor", "detalles": str(e)},
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -258,11 +265,11 @@ class RolViewSet(viewsets.ModelViewSet):
             )
         except ValidationError as e:
             return Response(
-                {"error": "Datos inválidos", "detalles": e.detail},
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as e:
             return Response(
-                {"error": "Error interno del servidor", "detalles": str(e)},
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )

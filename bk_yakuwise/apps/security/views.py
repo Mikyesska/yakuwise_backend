@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import filters, status, viewsets
@@ -71,6 +71,31 @@ class LoginView(APIView):
             {"error": "Credenciales inválidas", "detalles": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class LogoutView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            # Eliminar el token del usuario
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            
+            # Cerrar la sesión
+            logout(request)
+            
+            return Response(
+                {"message": "Logout exitoso"},
+                status=status.HTTP_200_OK,
+            )
+        except Token.DoesNotExist:
+            return Response(
+                {"error": "Token no encontrado"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 @method_decorator(csrf_exempt, name='dispatch')

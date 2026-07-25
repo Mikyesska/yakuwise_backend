@@ -4,16 +4,22 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import filters, status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
+from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Rol, TipoDocumento, Usuario, UsuarioRol
+from .models import Menus, Modulo, Rol, RolMenus, TipoDocumento, Usuario, UsuarioRol
 from .serializers import (
     LoginSerializer,
+    MenusEstadoSerializer,
+    MenusSerializer,
+    ModuloEstadoSerializer,
+    ModuloSerializer,
     ResetPasswordSerializer,
+    RolMenusSerializer,
     RolSerializer,
     TipoDocumentoSerializer,
     UpdatePasswordSerializer,
@@ -22,6 +28,7 @@ from .serializers import (
 
 ERROR_DATOS_INVALIDOS = "Datos inválidos"
 ERROR_INTERNO_SERVIDOR = "Error interno del servidor"
+ERROR_PERMISO_DENEGADO = "No tienes permisos para realizar esta acción"
 
 
 class CustomPagination(PageNumberPagination):
@@ -90,10 +97,10 @@ class LogoutView(APIView):
             # Eliminar el token del usuario
             token = Token.objects.get(user=request.user)
             token.delete()
-            
+
             # Cerrar la sesión
             logout(request)
-            
+
             return Response(
                 {"message": "Logout exitoso"},
                 status=status.HTTP_200_OK,
@@ -197,7 +204,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
     def permission_denied(self, request, message=None, code=None):
         return Response(
-            {"error": "No tienes permisos para realizar esta acción"},
+            {"error": ERROR_PERMISO_DENEGADO},
             status=status.HTTP_403_FORBIDDEN,
         )
 
@@ -277,7 +284,7 @@ class RolViewSet(viewsets.ModelViewSet):
     # --- 403 Forbidden ---
     def permission_denied(self, request, message=None, code=None):
         return Response(
-            {"error": "No tienes permisos para realizar esta acción"},
+            {"error": ERROR_PERMISO_DENEGADO},
             status=status.HTTP_403_FORBIDDEN,
         )
 
@@ -298,3 +305,227 @@ class RolViewSet(viewsets.ModelViewSet):
                 {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
+
+class ModuloViewSet(viewsets.ModelViewSet):
+    queryset = Modulo.objects.all()
+    serializer_class = ModuloSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['nombre_modulo', 'estado']
+    ordering_fields = ['id_modulo', 'nombre_modulo', 'estado']
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+
+    def create(self, request, *args, **kwargs):
+        try:
+            response = super().create(request, *args, **kwargs)
+            return Response(
+                {"message": "Módulo creado exitosamente", "data": response.data},
+                status=status.HTTP_201_CREATED,
+            )
+        except ValidationError as e:
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def update(self, request, *args, **kwargs):
+        try:
+            response = super().update(request, *args, **kwargs)
+            return Response(
+                {"message": "Módulo actualizado correctamente", "data": response.data},
+                status=status.HTTP_200_OK,
+            )
+        except ValidationError as e:
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    @action(detail=True, methods=['patch'])
+    def cambiar_estado(self, request, pk=None):
+        try:
+            modulo = self.get_object()
+            serializer = ModuloEstadoSerializer(modulo, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    {
+                        "message": "Estado del módulo actualizado correctamente",
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def permission_denied(self, request, message=None, code=None):
+        return Response(
+            {"error": ERROR_PERMISO_DENEGADO},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+
+class MenusViewSet(viewsets.ModelViewSet):
+    queryset = Menus.objects.select_related('id_modulo').all()
+    serializer_class = MenusSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['ruta', 'id_modulo__nombre_modulo', 'estado']
+    ordering_fields = ['id_menu', 'nivel', 'orden', 'ruta']
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+
+    def create(self, request, *args, **kwargs):
+        try:
+            response = super().create(request, *args, **kwargs)
+            return Response(
+                {"message": "Menú creado exitosamente", "data": response.data},
+                status=status.HTTP_201_CREATED,
+            )
+        except ValidationError as e:
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def update(self, request, *args, **kwargs):
+        try:
+            response = super().update(request, *args, **kwargs)
+            return Response(
+                {"message": "Menú actualizado correctamente", "data": response.data},
+                status=status.HTTP_200_OK,
+            )
+        except ValidationError as e:
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    @action(detail=True, methods=['patch'])
+    def cambiar_estado(self, request, pk=None):
+        try:
+            menu = self.get_object()
+            serializer = MenusEstadoSerializer(menu, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    {
+                        "message": "Estado del menú actualizado correctamente",
+                        "data": serializer.data,
+                    },
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def permission_denied(self, request, message=None, code=None):
+        return Response(
+            {"error": ERROR_PERMISO_DENEGADO},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+
+class RolMenusViewSet(viewsets.ModelViewSet):
+    queryset = RolMenus.objects.select_related('id_rol', 'id_menu').all()
+    serializer_class = RolMenusSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['id_rol__nombre_rol', 'id_menu__ruta']
+    ordering_fields = ['id_rol_menus', 'id_rol', 'id_menu']
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+
+    def create(self, request, *args, **kwargs):
+        try:
+            response = super().create(request, *args, **kwargs)
+            return Response(
+                {
+                    "message": "Relación rol-menú creada exitosamente",
+                    "data": response.data,
+                },
+                status=status.HTTP_201_CREATED,
+            )
+        except ValidationError as e:
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def update(self, request, *args, **kwargs):
+        try:
+            response = super().update(request, *args, **kwargs)
+            return Response(
+                {
+                    "message": "Relación rol-menú actualizada correctamente",
+                    "data": response.data,
+                },
+                status=status.HTTP_200_OK,
+            )
+        except ValidationError as e:
+            return Response(
+                {"error": ERROR_DATOS_INVALIDOS, "detalles": e.detail},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+            return Response(
+                {"message": "Relación rol-menú eliminada correctamente"},
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {"error": ERROR_INTERNO_SERVIDOR, "detalles": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    def permission_denied(self, request, message=None, code=None):
+        return Response(
+            {"error": ERROR_PERMISO_DENEGADO},
+            status=status.HTTP_403_FORBIDDEN,
+        )

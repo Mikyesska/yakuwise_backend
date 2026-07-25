@@ -4,7 +4,10 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     LoginView,
     LogoutView,
+    MenusViewSet,
+    ModuloViewSet,
     ResetPasswordView,
+    RolMenusViewSet,
     RolViewSet,
     TipoDocumentoViewSet,
     UpdatePasswordView,
@@ -12,6 +15,9 @@ from .views import (
 )
 
 router = DefaultRouter()
+router.register(r'modulos', ModuloViewSet)
+router.register(r'menus', MenusViewSet)
+router.register(r'rol-menus', RolMenusViewSet)
 router.register(r'tipos-documento', TipoDocumentoViewSet, basename='tipodocumento')
 router.register(r'roles', RolViewSet)
 router.register(r'usuarios', UsuarioViewSet)

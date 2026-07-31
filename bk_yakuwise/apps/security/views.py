@@ -18,6 +18,7 @@ from .serializers import (
     MenusSerializer,
     ModuloEstadoSerializer,
     ModuloSerializer,
+    ResetPasswordCorreoSerializer,
     ResetPasswordSerializer,
     RolMenusSerializer,
     RolSerializer,
@@ -168,8 +169,35 @@ class ResetPasswordView(APIView):
         )
 
 
+class ResetPasswordCorreoView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = ResetPasswordCorreoSerializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response(
+                {
+                    "message": "Contraseña reestablecida exitosamente",
+                    "data": {
+                        "id_usuario": usuario.id_usuario,
+                        "nombre_usuario": usuario.nombre_usuario,
+                        "email_institucional": usuario.email_institucional,
+                    },
+                },
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {
+                "error": "Error al reestablecer contraseña",
+                "detalles": serializer.errors,
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Usuario.objects.select_related('id_persona').all()
+    queryset = Usuario.objects.select_related('id_persona').exclude(is_superuser=True)
     serializer_class = UsuarioSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = [

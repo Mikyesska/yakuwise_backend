@@ -19,6 +19,11 @@ from .models import (
     UsuarioRol,
 )
 
+ERROR_CREDENCIALES_INVALIDAS = "Credenciales inválidas."
+MENSAJE_CREDENCIALES_ACCESO = "Tus credenciales de acceso son:"
+ERROR_USUARIO_INACTIVO = "El usuario está inactivo."
+ERROR_USUARIO_NO_EXISTE = "El usuario no existe."
+
 
 class TipoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,6 +68,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'persona',
             'id_roles',
             'roles',
+            'bloqueado_hasta',
             'fecha_creacion',
             'fecha_modificacion',
         ]
@@ -129,7 +135,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
             Tu cuenta ha sido creada exitosamente en el sistema Yakuwise.
 
-            Tus credenciales de acceso son:
+            {MENSAJE_CREDENCIALES_ACCESO}
             - Usuario: {usuario.nombre_usuario}
             - Contraseña: {password}
 
@@ -317,7 +323,7 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Le quedan dos intentos")
 
         user.save()
-        raise serializers.ValidationError("Credenciales inválidas.")
+        raise serializers.ValidationError(ERROR_CREDENCIALES_INVALIDAS)
 
     def _handle_successful_login(self, user):
         """Maneja un login exitoso, reiniciando contadores."""
@@ -335,7 +341,7 @@ class LoginSerializer(serializers.Serializer):
             try:
                 user = Usuario.objects.get(nombre_usuario=nombre_usuario)
             except Usuario.DoesNotExist:
-                raise serializers.ValidationError("Credenciales inválidas.")
+                raise serializers.ValidationError(ERROR_CREDENCIALES_INVALIDAS)
 
             self._check_if_user_is_blocked(user)
             self._reset_failed_attempts_if_expired(user)
@@ -348,7 +354,7 @@ class LoginSerializer(serializers.Serializer):
                 self._handle_failed_login(user)
 
             if not user.estado:
-                raise serializers.ValidationError("El usuario está inactivo.")
+                raise serializers.ValidationError(ERROR_USUARIO_INACTIVO)
 
             self._handle_successful_login(user)
             data['user'] = user
@@ -366,10 +372,10 @@ class ResetPasswordSerializer(serializers.Serializer):
         try:
             usuario = Usuario.objects.get(id_usuario=value)
             if not usuario.estado:
-                raise serializers.ValidationError("El usuario está inactivo.")
+                raise serializers.ValidationError(ERROR_USUARIO_INACTIVO)
             return value
         except Usuario.DoesNotExist:
-            raise serializers.ValidationError("El usuario no existe.")
+            raise serializers.ValidationError(ERROR_USUARIO_NO_EXISTE)
 
     def send_reset_password_email(self, usuario, password):
         """Envía email con la nueva contraseña del usuario."""
@@ -383,7 +389,7 @@ class ResetPasswordSerializer(serializers.Serializer):
 
             Tu contraseña ha sido reestablecida exitosamente en el sistema Yakuwise.
 
-            Tus credenciales de acceso son:
+            {MENSAJE_CREDENCIALES_ACCESO}
             - Usuario: {usuario.nombre_usuario}
             - Contraseña: {password}
 
@@ -432,6 +438,53 @@ class ResetPasswordSerializer(serializers.Serializer):
         self.send_reset_password_email(usuario, new_password)
 
         return usuario
+
+
+class ResetPasswordCorreoSerializer(serializers.Serializer):
+    correo = serializers.EmailField()
+    nombre_usuario = serializers.CharField()
+
+    def validate(self, data):
+        correo = data.get('correo').strip()
+        nombre_usuario = data.get('nombre_usuario').strip()
+
+        try:
+            usuario = Usuario.objects.select_related('id_persona').get(
+                nombre_usuario=nombre_usuario
+            )
+        except Usuario.DoesNotExist:
+            raise serializers.ValidationError(
+                {"nombre_usuario": ERROR_USUARIO_NO_EXISTE}
+            )
+
+        if not usuario.estado:
+            raise serializers.ValidationError(
+                {"nombre_usuario": ERROR_USUARIO_INACTIVO}
+            )
+
+        correos_usuario = [
+            usuario.email_institucional,
+            usuario.id_persona.correo_personal if usuario.id_persona else None,
+        ]
+        correos_usuario = [c.lower() for c in correos_usuario if c]
+
+        if correo.lower() not in correos_usuario:
+            raise serializers.ValidationError(
+                {"correo": ("El correo indicado no coincide con el nombre de usuario.")}
+            )
+
+        data['usuario'] = usuario
+        return data
+
+    def save(self):
+        usuario = self.validated_data['usuario']
+
+        # Reutiliza el mismo flujo de reseteo ya existente
+        reset_serializer = ResetPasswordSerializer(
+            data={'id_usuario': usuario.id_usuario}
+        )
+        reset_serializer.is_valid(raise_exception=True)
+        return reset_serializer.save()
 
 
 class UpdatePasswordSerializer(serializers.Serializer):

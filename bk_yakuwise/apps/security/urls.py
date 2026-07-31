@@ -6,6 +6,7 @@ from .views import (
     LogoutView,
     MenusViewSet,
     ModuloViewSet,
+    ResetPasswordCorreoView,
     ResetPasswordView,
     RolMenusViewSet,
     RolViewSet,
@@ -26,5 +27,10 @@ urlpatterns = router.urls + [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
+    path(
+        'reset-password-correo/',
+        ResetPasswordCorreoView.as_view(),
+        name='reset-password-correo',
+    ),
     path('update-password/', UpdatePasswordView.as_view(), name='update-password'),
 ]

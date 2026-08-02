@@ -315,12 +315,11 @@ class LoginSerializer(serializers.Serializer):
         elif user.intentos_fallidos == 2:
             user.save()
             raise serializers.ValidationError(
-                "Le queda 1 intento. Asegurese de ingresar la "
-                "contraseña correcta o se bloqueará su cuenta"
+                "Le queda un intento. Asegúrese de ingresar la\ncontraseña correcta o se bloqueará su cuenta."
             )
         elif user.intentos_fallidos == 1:
             user.save()
-            raise serializers.ValidationError("Le quedan dos intentos")
+            raise serializers.ValidationError("Error de autenticación. Verifique que\nsus datos de acceso sean correctos.\nLe quedan dos intentos.")
 
         user.save()
         raise serializers.ValidationError(ERROR_CREDENCIALES_INVALIDAS)

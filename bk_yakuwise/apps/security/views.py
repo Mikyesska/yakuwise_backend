@@ -77,13 +77,8 @@ class LoginView(APIView):
                 status=status.HTTP_200_OK,
             )
 
-        # Extraer mensaje de error específico del serializer
-        error_message = "Credenciales inválidas"
-        if 'non_field_errors' in serializer.errors:
-            error_message = serializer.errors['non_field_errors'][0]
-
         return Response(
-            {"error": error_message},
+            {"error": "Error de autenticación", "detalles": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
 

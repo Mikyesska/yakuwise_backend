@@ -232,6 +232,7 @@ class Menus(models.Model):
     nivel = models.IntegerField()
     orden = models.IntegerField()
     ruta = models.CharField(max_length=250)
+    nombre_menu = models.CharField(max_length=250, null=True, blank=True)
     id_modulo = models.ForeignKey(
         'Modulo', on_delete=models.CASCADE, db_column='id_modulo'
     )

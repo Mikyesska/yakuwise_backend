@@ -24,12 +24,14 @@ class LoginSerializer(serializers.Serializer):
     def _check_if_user_is_blocked(self, user):
         """Verifica si el usuario está bloqueado."""
         if user.bloqueado_hasta and user.bloqueado_hasta > timezone.now():
-            raise serializers.ValidationError(                {
+            raise serializers.ValidationError(
+                {
                     "password": (
-                        "Cuenta bloqueada.\n", "Comuníquese con el administrador."
+                        "Cuenta bloqueada.\n",
+                        "Comuníquese con el administrador.",
                     )
                 }
-                )
+            )
 
     def _reset_failed_attempts_if_expired(self, user):
         """Reinicia el contador de intentos fallidos si pasaron 5 minutos."""
@@ -52,7 +54,8 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 {
                     "password": (
-                        "Cuenta bloqueada.\n", "Comuníquese con el administrador."
+                        "Cuenta bloqueada.\n",
+                        "Comuníquese con el administrador.",
                     )
                 }
             )

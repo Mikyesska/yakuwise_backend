@@ -409,7 +409,7 @@ class ModuloViewSet(viewsets.ModelViewSet):
 class MenusViewSet(viewsets.ModelViewSet):
     queryset = Menus.objects.select_related('id_modulo').all()
     serializer_class = MenusSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id_modulo']
     search_fields = ['ruta', 'id_modulo__nombre_modulo', 'estado']
     ordering_fields = ['id_menu', 'nivel', 'orden', 'ruta']
     permission_classes = [IsAuthenticated]
@@ -485,7 +485,7 @@ class MenusViewSet(viewsets.ModelViewSet):
 class RolMenusViewSet(viewsets.ModelViewSet):
     queryset = RolMenus.objects.select_related('id_rol', 'id_menu').all()
     serializer_class = RolMenusSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id_menu', 'id_rol']
     search_fields = ['id_rol__nombre_rol', 'id_menu__ruta']
     ordering_fields = ['id_rol_menus', 'id_rol', 'id_menu']
     permission_classes = [IsAuthenticated]

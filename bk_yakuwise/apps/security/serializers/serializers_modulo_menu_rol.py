@@ -44,9 +44,15 @@ class RolSerializer(serializers.ModelSerializer):
 
 
 class ModuloSerializer(serializers.ModelSerializer):
+    menus_asociados = serializers.SerializerMethodField()
+
     class Meta:
         model = Modulo
-        fields = ['id_modulo', 'nombre_modulo', 'estado']
+        fields = ['id_modulo', 'nombre_modulo', 'estado', 'menus_asociados']
+
+    def get_menus_asociados(self, obj):
+        menus = Menus.objects.filter(id_modulo=obj.id_modulo, estado=True)
+        return [menu.nombre_menu for menu in menus]
 
     def validate_nombre_modulo(self, value):
         nombre_normalizado = value.strip().lower()
@@ -82,6 +88,7 @@ class MenusSerializer(serializers.ModelSerializer):
             'nivel',
             'orden',
             'ruta',
+            'nombre_menu',
             'id_modulo',
             'nombre_modulo',
             'estado',
@@ -101,7 +108,7 @@ class MenusSerializer(serializers.ModelSerializer):
 
 class RolMenusSerializer(serializers.ModelSerializer):
     nombre_rol = serializers.CharField(source='id_rol.nombre_rol', read_only=True)
-    nombre_menu = serializers.CharField(source='id_menu.ruta', read_only=True)
+    nombre_menu = serializers.CharField(source='id_menu.nombre_menu', read_only=True)
 
     class Meta:
         model = RolMenus

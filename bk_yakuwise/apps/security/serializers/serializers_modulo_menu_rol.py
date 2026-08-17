@@ -80,6 +80,7 @@ class MenusSerializer(serializers.ModelSerializer):
     nombre_modulo = serializers.CharField(
         source='id_modulo.nombre_modulo', read_only=True
     )
+    roles = serializers.SerializerMethodField()
 
     class Meta:
         model = Menus
@@ -92,6 +93,14 @@ class MenusSerializer(serializers.ModelSerializer):
             'id_modulo',
             'nombre_modulo',
             'estado',
+            'roles',
+        ]
+
+    def get_roles(self, obj):
+        rol_menus = RolMenus.objects.filter(id_menu=obj.id_menu)
+        return [
+            {'id_rol': rm.id_rol.id_rol, 'nombre_rol': rm.id_rol.nombre_rol}
+            for rm in rol_menus
         ]
 
     def validate(self, data):

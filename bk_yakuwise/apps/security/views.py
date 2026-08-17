@@ -132,7 +132,7 @@ class UpdatePasswordView(APIView):
                 status=status.HTTP_200_OK,
             )
         return Response(
-            {"error": "Error al actualizar contraseña", "detalles": serializer.errors},
+            {"error": "Error al actualizar contraseña.", "detalles": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -146,7 +146,7 @@ class ResetPasswordView(APIView):
             usuario = serializer.save()
             return Response(
                 {
-                    "message": "Contraseña reestablecida exitosamente",
+                    "message": "Contraseña reestablecida exitosamente.",
                     "data": {
                         "id_usuario": usuario.id_usuario,
                         "nombre_usuario": usuario.nombre_usuario,
@@ -157,7 +157,7 @@ class ResetPasswordView(APIView):
             )
         return Response(
             {
-                "error": "Error al reestablecer contraseña",
+                "error": "Error al reestablecer contraseña.",
                 "detalles": serializer.errors,
             },
             status=status.HTTP_400_BAD_REQUEST,
@@ -173,7 +173,7 @@ class ResetPasswordCorreoView(APIView):
             usuario = serializer.save()
             return Response(
                 {
-                    "message": "Contraseña reestablecida exitosamente",
+                    "message": "Contraseña reestablecida exitosamente.",
                     "data": {
                         "id_usuario": usuario.id_usuario,
                         "nombre_usuario": usuario.nombre_usuario,
@@ -184,7 +184,7 @@ class ResetPasswordCorreoView(APIView):
             )
         return Response(
             {
-                "error": "Error al reestablecer contraseña",
+                "error": "Error al recuperar contraseña.",
                 "detalles": serializer.errors,
             },
             status=status.HTTP_400_BAD_REQUEST,

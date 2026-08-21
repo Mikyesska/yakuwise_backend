@@ -17,7 +17,12 @@ Backend Django + Django Rest Framework para el proyecto Yakuwise.
 4. Configurar `.env` (copiar de `.env_example`)
 5. Crear base de datos en PostgreSQL
 6. Ejecutar migraciones: `python manage.py makemigrations` y `python manage.py migrate`
-7. Cargar fixtures: `python manage.py loaddata fixtures/rol.json fixtures/tipo_documento.json`
+7. Cargar fixtures:
+   - `python manage.py loaddata fixtures/rol.json`
+   - `python manage.py loaddata fixtures/tipo_documento.json`
+   - `python manage.py loaddata fixtures/modulo.json`
+   - `python manage.py loaddata fixtures/menus.json`
+   - `python manage.py loaddata fixtures/rolemenus.json`
 8. Ejecutar servidor: `python manage.py runserver`
 
 ## Estructura del proyecto

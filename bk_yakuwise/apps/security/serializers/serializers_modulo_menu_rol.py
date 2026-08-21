@@ -92,6 +92,7 @@ class MenusSerializer(serializers.ModelSerializer):
             'nombre_menu',
             'id_modulo',
             'nombre_modulo',
+            'id_depende',
             'estado',
             'roles',
         ]
@@ -104,14 +105,44 @@ class MenusSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, data):
-        if data.get('nivel') is not None and data.get('nivel') < 1:
+        nivel = data.get('nivel')
+        id_depende = data.get('id_depende')
+
+        # Obtener valores existentes si estamos actualizando
+        if self.instance:
+            if nivel is None:
+                nivel = self.instance.nivel
+            if id_depende is None:
+                id_depende = self.instance.id_depende
+
+        # Validar que nivel solo acepte 1 o 2
+        if nivel is not None and nivel not in [1, 2]:
             raise serializers.ValidationError(
-                {"nivel": "El nivel debe ser al menos 1."}
+                {"nivel": "El nivel solo puede ser 1 o 2."}
             )
+
+        # Validar que id_depende sea obligatorio cuando nivel es 2
+        if nivel == 2 and not id_depende:
+            raise serializers.ValidationError(
+                {
+                    "id_depende": "El campo es obligatorio cuando el nivel es 2."
+                }
+            )
+
+        # Validar que id_depende no se proporcione cuando nivel es 1
+        if nivel == 1 and id_depende:
+            raise serializers.ValidationError(
+                {
+                    "id_depende": "El campo no debe tener valor cuando el nivel es 1."
+                }
+            )
+
+        # Validar orden
         if data.get('orden') is not None and data.get('orden') < 1:
             raise serializers.ValidationError(
                 {"orden": "El orden debe ser al menos 1."}
             )
+
         return data
 
 

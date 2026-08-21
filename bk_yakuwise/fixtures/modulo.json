@@ -1,0 +1,10 @@
+[
+  {
+    "model": "security.modulo",
+    "pk": 1,
+    "fields": {
+      "nombre_modulo": "SEGURIDAD",
+      "estado": true
+    }
+  }
+]

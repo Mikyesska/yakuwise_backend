@@ -1,0 +1,34 @@
+[
+  {
+    "model": "security.rolmenus",
+    "pk": 1,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 1
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 2,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 2
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 3,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 3
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 4,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 4
+    }
+  }
+]

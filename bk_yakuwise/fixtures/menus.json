@@ -1,0 +1,54 @@
+[
+  {
+    "model": "security.menus",
+    "pk": 1,
+    "fields": {
+      "nivel": 1,
+      "orden": 1,
+      "ruta": "/roles",
+      "nombre_menu": "ROLES",
+      "id_modulo": 1,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 2,
+    "fields": {
+      "nivel": 1,
+      "orden": 2,
+      "ruta": "/usuarios",
+      "nombre_menu": "USUARIOS",
+      "id_modulo": 1,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 3,
+    "fields": {
+      "nivel": 1,
+      "orden": 3,
+      "ruta": "/modulos",
+      "nombre_menu": "MÓDULOS",
+      "id_modulo": 1,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 4,
+    "fields": {
+      "nivel": 2,
+      "orden": 1,
+      "ruta": "/menus",
+      "nombre_menu": "MENUS",
+      "id_modulo": 1,
+      "id_depende": 3,
+      "estado": true
+    }
+  }
+]

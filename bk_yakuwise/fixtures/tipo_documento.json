@@ -3,7 +3,7 @@
     "model": "security.tipodocumento",
     "pk": 1,
     "fields": {
-      "nombre_tipo_documento": "DOCUMENTO NACIONAL DE IDENTIDAD",
+      "nombre_tipo_documento": "Documento Nacional de Identidad",
       "estado": true
     }
   },
@@ -11,7 +11,7 @@
     "model": "security.tipodocumento",
     "pk": 2,
     "fields": {
-      "nombre_tipo_documento": "CARNET DE EXTRANJERÍA",
+      "nombre_tipo_documento": "Carnet de Extranjería",
       "estado": true
     }
   },
@@ -19,7 +19,7 @@
     "model": "security.tipodocumento",
     "pk": 3,
     "fields": {
-      "nombre_tipo_documento": "PERMISO TEMPORAL DE PERMANENCIA",
+      "nombre_tipo_documento": "Permiso Temporal de Permanencia",
       "estado": true
     }
   },
@@ -27,15 +27,7 @@
     "model": "security.tipodocumento",
     "pk": 4,
     "fields": {
-      "nombre_tipo_documento": "PASAPORTE",
-      "estado": true
-    }
-  },
-  {
-    "model": "security.tipodocumento",
-    "pk": 5,
-    "fields": {
-      "nombre_tipo_documento": "OTROS/SIN DOCUMENTO",
+      "nombre_tipo_documento": "Pasaporte",
       "estado": true
     }
   }

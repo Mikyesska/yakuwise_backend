@@ -83,7 +83,7 @@ class Persona(models.Model):
     apellido_materno = models.CharField(max_length=150, blank=True, default='')
     genero = models.CharField(max_length=1)
     telefono = models.CharField(max_length=15, blank=True, default='')
-    correo_personal = models.CharField(max_length=200)
+    correo_personal = models.CharField(max_length=200, blank=True, default='')
     estado = models.BooleanField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
@@ -235,6 +235,14 @@ class Menus(models.Model):
     nombre_menu = models.CharField(max_length=250, null=True, blank=True)
     id_modulo = models.ForeignKey(
         'Modulo', on_delete=models.CASCADE, db_column='id_modulo'
+    )
+    id_depende = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        db_column='id_depende',
+        null=True,
+        blank=True,
+        related_name='submenus',
     )
     estado = models.BooleanField()
 

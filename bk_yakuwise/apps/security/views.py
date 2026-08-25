@@ -42,6 +42,75 @@ class CustomPagination(PageNumberPagination):
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
+    def _get_user_roles(self, user):
+        """Obtiene los roles del usuario y retorna la información formateada."""
+        usuario_roles = UsuarioRol.objects.filter(id_usuario=user, estado=True)
+        roles = []
+        role_ids = []
+        for ur in usuario_roles:
+            roles.append(
+                {"id_rol": ur.id_rol.id_rol, "nombre_rol": ur.id_rol.nombre_rol}
+            )
+            role_ids.append(ur.id_rol.id_rol)
+        return roles, role_ids
+
+    def _get_menu_roles(self, menu, role_ids):
+        """Obtiene los roles que tienen acceso a un menú específico."""
+        rol_menus = RolMenus.objects.filter(id_menu=menu, id_rol__in=role_ids)
+        return [
+            {"id_rol": rm.id_rol.id_rol, "nombre_rol": rm.id_rol.nombre_rol}
+            for rm in rol_menus
+        ]
+
+    def _build_menu_data(self, menu, roles_menu):
+        """Construye la estructura de datos de un menú."""
+        return {
+            "id_menu": menu.id_menu,
+            "nivel": menu.nivel,
+            "orden": menu.orden,
+            "ruta": menu.ruta,
+            "nombre_menu": menu.nombre_menu,
+            "id_modulo": menu.id_modulo.id_modulo,
+            "id_depende": menu.id_depende.id_menu if menu.id_depende else None,
+            "estado": menu.estado,
+            "roles": roles_menu
+        }
+
+    def _get_accessible_menus(self, modulo, role_ids):
+        """Obtiene los menús accesibles para un módulo específico."""
+        menus_modulo = Menus.objects.filter(
+            id_modulo=modulo, estado=True
+        ).order_by('nivel', 'orden')
+        
+        menus_data = []
+        for menu in menus_modulo:
+            rol_menus = RolMenus.objects.filter(id_menu=menu, id_rol__in=role_ids)
+            
+            if rol_menus.exists():
+                roles_menu = self._get_menu_roles(menu, role_ids)
+                menu_data = self._build_menu_data(menu, roles_menu)
+                menus_data.append(menu_data)
+        
+        return menus_data
+
+    def _get_modulos_with_menus(self, role_ids):
+        """Obtiene los módulos con sus menús accesibles."""
+        modulos = Modulo.objects.filter(estado=True)
+        modulos_con_menus = []
+        
+        for modulo in modulos:
+            menus_data = self._get_accessible_menus(modulo, role_ids)
+            
+            if menus_data:
+                modulos_con_menus.append({
+                    "id_modulo": modulo.id_modulo,
+                    "nombre_modulo": modulo.nombre_modulo,
+                    "estado": modulo.estado,
+                    "menus": menus_data
+                })
+        
+        return modulos_con_menus
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -49,13 +118,8 @@ class LoginView(APIView):
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
 
-            # Obtener roles del usuario
-            usuario_roles = UsuarioRol.objects.filter(id_usuario=user, estado=True)
-            roles = []
-            for ur in usuario_roles:
-                roles.append(
-                    {"id_rol": ur.id_rol.id_rol, "nombre_rol": ur.id_rol.nombre_rol}
-                )
+            roles, role_ids = self._get_user_roles(user)
+            modulos_con_menus = self._get_modulos_with_menus(role_ids)
 
             return Response(
                 {
@@ -72,6 +136,7 @@ class LoginView(APIView):
                         "pass_actualizado": user.pass_actualizado,
                         "token": token.key,
                         "roles": roles,
+                        "modulos": modulos_con_menus,
                     },
                 },
                 status=status.HTTP_200_OK,

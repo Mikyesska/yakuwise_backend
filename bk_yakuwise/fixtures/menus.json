@@ -5,7 +5,7 @@
     "fields": {
       "nivel": 1,
       "orden": 1,
-      "ruta": "/roles",
+      "ruta": "/security/roles",
       "nombre_menu": "ROLES",
       "id_modulo": 1,
       "id_depende": null,
@@ -18,7 +18,7 @@
     "fields": {
       "nivel": 1,
       "orden": 2,
-      "ruta": "/usuarios",
+      "ruta": "/security/usuarios",
       "nombre_menu": "USUARIOS",
       "id_modulo": 1,
       "id_depende": null,
@@ -31,7 +31,7 @@
     "fields": {
       "nivel": 1,
       "orden": 3,
-      "ruta": "/modulos",
+      "ruta": "/security/modulos",
       "nombre_menu": "MÓDULOS",
       "id_modulo": 1,
       "id_depende": null,
@@ -44,7 +44,7 @@
     "fields": {
       "nivel": 2,
       "orden": 1,
-      "ruta": "/menus",
+      "ruta": "/security/menus",
       "nombre_menu": "MENUS",
       "id_modulo": 1,
       "id_depende": 3,

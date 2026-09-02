@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth import authenticate
@@ -79,7 +79,7 @@ class LoginSerializer(serializers.Serializer):
         user.intentos_fallidos = 0
         user.ultimo_intento_fallido = None
         user.bloqueado_hasta = None
-        user.last_login = datetime.now()
+        user.last_login = timezone.now()
         user.save()
 
     def validate(self, data):

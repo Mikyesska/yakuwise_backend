@@ -5,6 +5,7 @@ from .views import (
     LoginView,
     LogoutView,
     MenusViewSet,
+    MeView,
     ModuloViewSet,
     ResetPasswordCorreoView,
     ResetPasswordView,
@@ -26,6 +27,7 @@ router.register(r'usuarios', UsuarioViewSet)
 urlpatterns = router.urls + [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('me/', MeView.as_view(), name='me'),
     path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
     path(
         'reset-password-correo/',

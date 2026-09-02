@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -73,42 +74,82 @@ class LoginView(APIView):
             "id_modulo": menu.id_modulo.id_modulo,
             "id_depende": menu.id_depende.id_menu if menu.id_depende else None,
             "estado": menu.estado,
-            "roles": roles_menu
+            "roles": roles_menu,
         }
 
     def _get_accessible_menus(self, modulo, role_ids):
         """Obtiene los menús accesibles para un módulo específico."""
-        menus_modulo = Menus.objects.filter(
-            id_modulo=modulo, estado=True
-        ).order_by('nivel', 'orden')
-        
+        menus_modulo = Menus.objects.filter(id_modulo=modulo, estado=True).order_by(
+            'nivel', 'orden'
+        )
+
         menus_data = []
         for menu in menus_modulo:
             rol_menus = RolMenus.objects.filter(id_menu=menu, id_rol__in=role_ids)
-            
+
             if rol_menus.exists():
                 roles_menu = self._get_menu_roles(menu, role_ids)
                 menu_data = self._build_menu_data(menu, roles_menu)
                 menus_data.append(menu_data)
-        
+
         return menus_data
 
     def _get_modulos_with_menus(self, role_ids):
         """Obtiene los módulos con sus menús accesibles."""
         modulos = Modulo.objects.filter(estado=True)
         modulos_con_menus = []
-        
+
         for modulo in modulos:
             menus_data = self._get_accessible_menus(modulo, role_ids)
-            
+
             if menus_data:
-                modulos_con_menus.append({
+                modulos_con_menus.append(
+                    {
+                        "id_modulo": modulo.id_modulo,
+                        "nombre_modulo": modulo.nombre_modulo,
+                        "estado": modulo.estado,
+                        "menus": menus_data,
+                    }
+                )
+
+        return modulos_con_menus
+
+    def _get_all_roles(self):
+        """Obtiene todos los roles existentes en el sistema con estado activo."""
+        roles = Rol.objects.filter(estado=True)
+        return [{"id_rol": rol.id_rol, "nombre_rol": rol.nombre_rol} for rol in roles]
+
+    def _get_all_modulos_with_all_menus(self):
+        """Obtiene todos los módulos con todos sus menús."""
+        modulos = Modulo.objects.filter(estado=True)
+        modulos_con_menus = []
+
+        for modulo in modulos:
+            menus_modulo = Menus.objects.filter(id_modulo=modulo, estado=True).order_by(
+                'nivel', 'orden'
+            )
+
+            menus_data = []
+            for menu in menus_modulo:
+                # Obtener todos los roles asociados a este menú
+                rol_menus = RolMenus.objects.filter(id_menu=menu)
+                roles_menu = [
+                    {"id_rol": rm.id_rol.id_rol, "nombre_rol": rm.id_rol.nombre_rol}
+                    for rm in rol_menus
+                ]
+
+                menu_data = self._build_menu_data(menu, roles_menu)
+                menus_data.append(menu_data)
+
+            modulos_con_menus.append(
+                {
                     "id_modulo": modulo.id_modulo,
                     "nombre_modulo": modulo.nombre_modulo,
                     "estado": modulo.estado,
-                    "menus": menus_data
-                })
-        
+                    "menus": menus_data,
+                }
+            )
+
         return modulos_con_menus
 
     def post(self, request):
@@ -118,8 +159,13 @@ class LoginView(APIView):
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
 
-            roles, role_ids = self._get_user_roles(user)
-            modulos_con_menus = self._get_modulos_with_menus(role_ids)
+            # Si el usuario es superusuario, obtener todos los roles, módulos y menús.
+            if user.is_superuser:
+                roles = self._get_all_roles()
+                modulos_con_menus = self._get_all_modulos_with_all_menus()
+            else:
+                roles, role_ids = self._get_user_roles(user)
+                modulos_con_menus = self._get_modulos_with_menus(role_ids)
 
             return Response(
                 {
@@ -170,6 +216,163 @@ class LogoutView(APIView):
             return Response(
                 {"error": "Token no encontrado"},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class MeView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def _get_user_roles(self, user):
+        """Obtiene los roles del usuario y retorna la información formateada."""
+        usuario_roles = UsuarioRol.objects.filter(id_usuario=user, estado=True)
+        roles = []
+        role_ids = []
+        for ur in usuario_roles:
+            roles.append(
+                {"id_rol": ur.id_rol.id_rol, "nombre_rol": ur.id_rol.nombre_rol}
+            )
+            role_ids.append(ur.id_rol.id_rol)
+        return roles, role_ids
+
+    def _get_menu_roles(self, menu, role_ids):
+        """Obtiene los roles que tienen acceso a un menú específico."""
+        rol_menus = RolMenus.objects.filter(id_menu=menu, id_rol__in=role_ids)
+        return [
+            {"id_rol": rm.id_rol.id_rol, "nombre_rol": rm.id_rol.nombre_rol}
+            for rm in rol_menus
+        ]
+
+    def _build_menu_data(self, menu, roles_menu):
+        """Construye la estructura de datos de un menú."""
+        return {
+            "id_menu": menu.id_menu,
+            "nivel": menu.nivel,
+            "orden": menu.orden,
+            "ruta": menu.ruta,
+            "nombre_menu": menu.nombre_menu,
+            "id_modulo": menu.id_modulo.id_modulo,
+            "id_depende": menu.id_depende.id_menu if menu.id_depende else None,
+            "estado": menu.estado,
+            "roles": roles_menu,
+        }
+
+    def _get_accessible_menus(self, modulo, role_ids):
+        """Obtiene los menús accesibles para un módulo específico."""
+        menus_modulo = Menus.objects.filter(id_modulo=modulo, estado=True).order_by(
+            'nivel', 'orden'
+        )
+
+        menus_data = []
+        for menu in menus_modulo:
+            rol_menus = RolMenus.objects.filter(id_menu=menu, id_rol__in=role_ids)
+
+            if rol_menus.exists():
+                roles_menu = self._get_menu_roles(menu, role_ids)
+                menu_data = self._build_menu_data(menu, roles_menu)
+                menus_data.append(menu_data)
+
+        return menus_data
+
+    def _get_modulos_with_menus(self, role_ids):
+        """Obtiene los módulos con sus menús accesibles."""
+        modulos = Modulo.objects.filter(estado=True)
+        modulos_con_menus = []
+
+        for modulo in modulos:
+            menus_data = self._get_accessible_menus(modulo, role_ids)
+
+            if menus_data:
+                modulos_con_menus.append(
+                    {
+                        "id_modulo": modulo.id_modulo,
+                        "nombre_modulo": modulo.nombre_modulo,
+                        "estado": modulo.estado,
+                        "menus": menus_data,
+                    }
+                )
+
+        return modulos_con_menus
+
+    def _get_all_roles(self):
+        """Obtiene todos los roles existentes en el sistema con estado activo."""
+        roles = Rol.objects.filter(estado=True)
+        return [{"id_rol": rol.id_rol, "nombre_rol": rol.nombre_rol} for rol in roles]
+
+    def _get_all_modulos_with_all_menus(self):
+        """Obtiene todos los módulos con todos sus menús."""
+        modulos = Modulo.objects.filter(estado=True)
+        modulos_con_menus = []
+
+        for modulo in modulos:
+            menus_modulo = Menus.objects.filter(id_modulo=modulo, estado=True).order_by(
+                'nivel', 'orden'
+            )
+
+            menus_data = []
+            for menu in menus_modulo:
+                # Obtener todos los roles asociados a este menú
+                rol_menus = RolMenus.objects.filter(id_menu=menu)
+                roles_menu = [
+                    {"id_rol": rm.id_rol.id_rol, "nombre_rol": rm.id_rol.nombre_rol}
+                    for rm in rol_menus
+                ]
+
+                menu_data = self._build_menu_data(menu, roles_menu)
+                menus_data.append(menu_data)
+
+            modulos_con_menus.append(
+                {
+                    "id_modulo": modulo.id_modulo,
+                    "nombre_modulo": modulo.nombre_modulo,
+                    "estado": modulo.estado,
+                    "menus": menus_data,
+                }
+            )
+
+        return modulos_con_menus
+
+    def get(self, request):
+        try:
+            user = request.user
+            token, _ = Token.objects.get_or_create(user=user)
+
+            # Si el usuario es superusuario, obtener todos los roles, módulos y menús.
+            if user.is_superuser:
+                roles = self._get_all_roles()
+                modulos_con_menus = self._get_all_modulos_with_all_menus()
+            else:
+                roles, role_ids = self._get_user_roles(user)
+                modulos_con_menus = self._get_modulos_with_menus(role_ids)
+
+            return Response(
+                {
+                    "message": "Información de usuario obtenida exitosamente",
+                    "data": {
+                        "id_usuario": user.id_usuario,
+                        "nombre_usuario": user.nombre_usuario,
+                        "email_institucional": user.email_institucional,
+                        "nombre_completo": user.get_full_name(),
+                        "nombre": user.get_nombre(),
+                        "apellido": user.get_apellido(),
+                        "genero": user.get_genero(),
+                        "last_login": user.last_login,
+                        "pass_actualizado": user.pass_actualizado,
+                        "token": token.key,
+                        "roles": roles,
+                        "modulos": modulos_con_menus,
+                    },
+                },
+                status=status.HTTP_200_OK,
+            )
+        except Exception as e:
+            return Response(
+                {
+                    "error": "Error al obtener información del usuario",
+                    "detalles": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 
@@ -259,7 +462,12 @@ class ResetPasswordCorreoView(APIView):
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.select_related('id_persona').exclude(is_superuser=True)
     serializer_class = UsuarioSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ['estado']
     search_fields = [
         'nombre_usuario',
         'email_institucional',
@@ -342,7 +550,12 @@ class TipoDocumentoViewSet(viewsets.ReadOnlyModelViewSet):
 class RolViewSet(viewsets.ModelViewSet):
     queryset = Rol.objects.all()
     serializer_class = RolSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ['estado']
     search_fields = ['nombre_rol', 'estado']
     ordering_fields = ['id_rol', 'nombre_rol', 'estado']
     permission_classes = [IsAuthenticated]
@@ -398,7 +611,12 @@ class RolViewSet(viewsets.ModelViewSet):
 class ModuloViewSet(viewsets.ModelViewSet):
     queryset = Modulo.objects.all()
     serializer_class = ModuloSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ['estado']
     search_fields = ['nombre_modulo', 'estado']
     ordering_fields = ['id_modulo', 'nombre_modulo', 'estado']
     permission_classes = [IsAuthenticated]
@@ -474,7 +692,12 @@ class ModuloViewSet(viewsets.ModelViewSet):
 class MenusViewSet(viewsets.ModelViewSet):
     queryset = Menus.objects.select_related('id_modulo').all()
     serializer_class = MenusSerializer
-    filterset_fields = ['id_modulo']
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ['id_modulo', 'estado']
     search_fields = ['ruta', 'id_modulo__nombre_modulo', 'estado']
     ordering_fields = ['id_menu', 'nivel', 'orden', 'ruta']
     permission_classes = [IsAuthenticated]
@@ -550,7 +773,12 @@ class MenusViewSet(viewsets.ModelViewSet):
 class RolMenusViewSet(viewsets.ModelViewSet):
     queryset = RolMenus.objects.select_related('id_rol', 'id_menu').all()
     serializer_class = RolMenusSerializer
-    filterset_fields = ['id_menu', 'id_rol']
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ['id_menu', 'id_rol', 'id_rol__estado']
     search_fields = ['id_rol__nombre_rol', 'id_menu__ruta']
     ordering_fields = ['id_rol_menus', 'id_rol', 'id_menu']
     permission_classes = [IsAuthenticated]

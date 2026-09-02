@@ -124,17 +124,13 @@ class MenusSerializer(serializers.ModelSerializer):
         # Validar que id_depende sea obligatorio cuando nivel es 2
         if nivel == 2 and not id_depende:
             raise serializers.ValidationError(
-                {
-                    "id_depende": "El campo es obligatorio cuando el nivel es 2."
-                }
+                {"id_depende": "El campo es obligatorio cuando el nivel es 2."}
             )
 
         # Validar que id_depende no se proporcione cuando nivel es 1
         if nivel == 1 and id_depende:
             raise serializers.ValidationError(
-                {
-                    "id_depende": "El campo no debe tener valor cuando el nivel es 1."
-                }
+                {"id_depende": "El campo no debe tener valor cuando el nivel es 1."}
             )
 
         # Validar orden

@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('apps.cliente.urls')),  # ejemplo
     path('security/', include('apps.security.urls')),
+    path('api/monitoreo/', include('apps.monitoreoparametro.urls')),
 ]

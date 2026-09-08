@@ -698,7 +698,7 @@ class MenusViewSet(viewsets.ModelViewSet):
         filters.OrderingFilter,
     ]
     filterset_fields = ['id_modulo', 'estado']
-    search_fields = ['ruta', 'id_modulo__nombre_modulo', 'estado']
+    search_fields = ['ruta', 'id_modulo__nombre_modulo', 'estado','nombre_menu']
     ordering_fields = ['id_menu', 'nivel', 'orden', 'ruta']
     permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination

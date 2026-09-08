@@ -112,7 +112,7 @@ class MenusSerializer(serializers.ModelSerializer):
         if self.instance:
             if nivel is None:
                 nivel = self.instance.nivel
-            if id_depende is None:
+            if id_depende is None and 'id_depende' not in self.initial_data:
                 id_depende = self.instance.id_depende
 
         # Validar que nivel solo acepte 1 o 2
@@ -121,17 +121,16 @@ class MenusSerializer(serializers.ModelSerializer):
                 {"nivel": "El nivel solo puede ser 1 o 2."}
             )
 
+        # Si el nivel es 1, limpiar id_depende
+        if nivel == 1:
+            id_depende = None
+            data['id_depende'] = None
+
         # Validar que id_depende sea obligatorio cuando nivel es 2
         if nivel == 2 and not id_depende:
             raise serializers.ValidationError(
-                {"id_depende": "El campo es obligatorio cuando el nivel es 2."}
-            )
-
-        # Validar que id_depende no se proporcione cuando nivel es 1
-        if nivel == 1 and id_depende:
-            raise serializers.ValidationError(
-                {"id_depende": "El campo no debe tener valor cuando el nivel es 1."}
-            )
+                {"id_depende": "El menú padre es requerido cuando el nivel es 2."}
+            ) 
 
         # Validar orden
         if data.get('orden') is not None and data.get('orden') < 1:

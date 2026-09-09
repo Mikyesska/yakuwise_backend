@@ -50,5 +50,226 @@
       "id_depende": 3,
       "estado": true
     }
+  },
+  {
+    "model": "security.menus",
+    "pk": 5,
+    "fields": {
+      "nivel": 1,
+      "orden": 1,
+      "ruta": "/api/contactos",
+      "nombre_menu": "CONTACTOS",
+      "id_modulo": 2,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 6,
+    "fields": {
+      "nivel": 1,
+      "orden": 2,
+      "ruta": "/api/clientes",
+      "nombre_menu": "CLIENTES",
+      "id_modulo": 2,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 7,
+    "fields": {
+      "nivel": 1,
+      "orden": 3,
+      "ruta": "/api/proyectos",
+      "nombre_menu": "PROYECTOS",
+      "id_modulo": 2,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 8,
+    "fields": {
+      "nivel": 1,
+      "orden": 1,
+      "ruta": "/api/monitoreo/frecuencias-monitoreo",
+      "nombre_menu": "FRECUENCIAS MONITOREO",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 9,
+    "fields": {
+      "nivel": 1,
+      "orden": 2,
+      "ruta": "/api/monitoreo/horarios-monitoreo",
+      "nombre_menu": "HORARIOS MONITOREO",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 10,
+    "fields": {
+      "nivel": 1,
+      "orden": 3,
+      "ruta": "/api/monitoreo/tipos-parametro",
+      "nombre_menu": "TIPOS PARAMETRO",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 11,
+    "fields": {
+      "nivel": 1,
+      "orden": 4,
+      "ruta": "/api/monitoreo/unidades-medida",
+      "nombre_menu": "UNIDADES MEDIDA",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 12,
+    "fields": {
+      "nivel": 1,
+      "orden": 5,
+      "ruta": "/api/monitoreo/tipos-error",
+      "nombre_menu": "TIPOS ERROR",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 13,
+    "fields": {
+      "nivel": 1,
+      "orden": 6,
+      "ruta": "/api/monitoreo/tipos-planta",
+      "nombre_menu": "TIPOS PLANTA",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 14,
+    "fields": {
+      "nivel": 1,
+      "orden": 7,
+      "ruta": "/api/monitoreo/parametros",
+      "nombre_menu": "PARAMETROS",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 15,
+    "fields": {
+      "nivel": 1,
+      "orden": 8,
+      "ruta": "/api/monitoreo/plantas",
+      "nombre_menu": "PLANTAS",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 16,
+    "fields": {
+      "nivel": 1,
+      "orden": 9,
+      "ruta": "/api/monitoreo/etapas",
+      "nombre_menu": "ETAPAS",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 17,
+    "fields": {
+      "nivel": 1,
+      "orden": 10,
+      "ruta": "/api/monitoreo/puntos-muestreo",
+      "nombre_menu": "PUNTOS MUESTREO",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 18,
+    "fields": {
+      "nivel": 1,
+      "orden": 11,
+      "ruta": "/api/monitoreo/parametros-punto-muestreo",
+      "nombre_menu": "PARAMETROS PUNTO MUESTREO",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 19,
+    "fields": {
+      "nivel": 1,
+      "orden": 12,
+      "ruta": "/api/monitoreo/monitoreos",
+      "nombre_menu": "MONITOREOS",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 20,
+    "fields": {
+      "nivel": 1,
+      "orden": 13,
+      "ruta": "/api/monitoreo/anormalidades",
+      "nombre_menu": "ANORMALIDADES",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 21,
+    "fields": {
+      "nivel": 1,
+      "orden": 14,
+      "ruta": "/api/monitoreo/acciones-correctivas",
+      "nombre_menu": "ACCIONES CORRECTIVAS",
+      "id_modulo": 3,
+      "id_depende": null,
+      "estado": true
+    }
   }
 ]

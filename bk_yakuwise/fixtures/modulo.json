@@ -6,5 +6,21 @@
       "nombre_modulo": "SEGURIDAD",
       "estado": true
     }
+  },
+  {
+    "model": "security.modulo",
+    "pk": 2,
+    "fields": {
+      "nombre_modulo": "CLIENTE",
+      "estado": true
+    }
+  },
+  {
+    "model": "security.modulo",
+    "pk": 3,
+    "fields": {
+      "nombre_modulo": "MONITOREO PARAMETRO",
+      "estado": true
+    }
   }
 ]

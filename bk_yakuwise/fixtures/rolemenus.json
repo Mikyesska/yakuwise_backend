@@ -30,5 +30,141 @@
       "id_rol": 1,
       "id_menu": 4
     }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 5,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 5
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 6,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 6
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 7,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 7
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 8,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 8
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 9,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 9
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 10,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 10
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 11,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 11
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 12,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 12
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 13,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 13
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 14,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 14
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 15,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 15
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 16,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 16
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 17,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 17
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 18,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 18
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 19,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 19
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 20,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 20
+    }
+  },
+  {
+    "model": "security.rolmenus",
+    "pk": 21,
+    "fields": {
+      "id_rol": 1,
+      "id_menu": 21
+    }
   }
 ]

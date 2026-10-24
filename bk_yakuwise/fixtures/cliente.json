@@ -1,0 +1,17 @@
+[
+  {
+    "model": "cliente.cliente",
+    "pk": 1,
+    "fields": {
+      "nombre_cliente": "Empresa de Servicios de Agua S.A.",
+      "ruc_cliente": "20123456789",
+      "email": "contacto@empresa.com",
+      "telefono": "911222333",
+      "direccion": "Av. Principal 123, Lima",
+      "estado": true,
+      "id_contacto": 1,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  }
+]

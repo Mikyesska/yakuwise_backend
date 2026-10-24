@@ -6,11 +6,12 @@ from .views import (
     EtapaViewSet,
     FrecuenciaMonitoreoViewSet,
     HorarioMonitoreoViewSet,
+    LimiteParametroViewSet,
     MonitoreoViewSet,
     ParametroPuntoMuestreoViewSet,
     ParametroViewSet,
-    PuntoMuestreoViewSet,
     PlantaViewSet,
+    PuntoMuestreoViewSet,
     TipoErrorViewSet,
     TipoParametroViewSet,
     TipoPlantaViewSet,
@@ -28,6 +29,7 @@ router.register(r'parametros', ParametroViewSet)
 router.register(r'plantas', PlantaViewSet)
 router.register(r'etapas', EtapaViewSet)
 router.register(r'puntos-muestreo', PuntoMuestreoViewSet)
+router.register(r'limites-parametro', LimiteParametroViewSet)
 router.register(r'parametros-punto-muestreo', ParametroPuntoMuestreoViewSet)
 router.register(r'monitoreos', MonitoreoViewSet)
 router.register(r'anormalidades', AnormalidadViewSet)

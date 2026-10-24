@@ -1,0 +1,41 @@
+[
+  {
+    "model": "monitoreoparametro.etapa",
+    "pk": 1,
+    "fields": {
+      "nombre_etapa": "Ingreso (Afluente)",
+      "imagen_etapa": "",
+      "orden": 1,
+      "id_planta": 1,
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  },
+  {
+    "model": "monitoreoparametro.etapa",
+    "pk": 2,
+    "fields": {
+      "nombre_etapa": "Tratamiento biológico (Reactor)",
+      "imagen_etapa": "",
+      "orden": 2,
+      "id_planta": 1,
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  },
+  {
+    "model": "monitoreoparametro.etapa",
+    "pk": 3,
+    "fields": {
+      "nombre_etapa": "Salida (Efluente)",
+      "imagen_etapa": "",
+      "orden": 3,
+      "id_planta": 1,
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  }
+]

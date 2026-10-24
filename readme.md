@@ -23,6 +23,17 @@ Backend Django + Django Rest Framework para el proyecto Yakuwise.
    - `python manage.py loaddata fixtures/modulo.json`
    - `python manage.py loaddata fixtures/menus.json`
    - `python manage.py loaddata fixtures/rolemenus.json`
+   - `python manage.py loaddata fixtures/contacto.json`
+   - `python manage.py loaddata fixtures/cliente.json`
+   - `python manage.py loaddata fixtures/proyecto.json`
+   - `python manage.py loaddata fixtures/tipos_planta.json`
+   - `python manage.py loaddata fixtures/planta.json`
+   - `python manage.py loaddata fixtures/unidades_medida.json`
+   - `python manage.py loaddata fixtures/tipos_parametro.json`
+   - `python manage.py loaddata fixtures/etapa.json`
+   - `python manage.py loaddata fixtures/punto_muestreo.json`
+   - `python manage.py loaddata fixtures/parametros.json`
+   - `python manage.py loaddata fixtures/limite_parametro.json`
 8. Ejecutar servidor: `python manage.py runserver`
 
 ## Estructura del proyecto

@@ -1,0 +1,16 @@
+[
+  {
+    "model": "monitoreoparametro.planta",
+    "pk": 1,
+    "fields": {
+      "tipo_planta": 1,
+      "nombre_planta": "PTAR Lima Norte",
+      "abreviatura_planta": "PTAR-LN",
+      "descripcion": "Planta de tratamiento de aguas residuales para el sector norte de Lima",
+      "estado": true,
+      "proyecto": 1,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  }
+]

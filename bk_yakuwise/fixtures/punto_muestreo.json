@@ -1,0 +1,50 @@
+[
+  {
+    "model": "monitoreoparametro.puntomuestreo",
+    "pk": 1,
+    "fields": {
+      "nombre_punto_muestreo": "Ingreso",
+      "orden": 1,
+      "id_etapa": 1,
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  },
+  {
+    "model": "monitoreoparametro.puntomuestreo",
+    "pk": 2,
+    "fields": {
+      "nombre_punto_muestreo": "Línea 1",
+      "orden": 1,
+      "id_etapa": 2,
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  },
+  {
+    "model": "monitoreoparametro.puntomuestreo",
+    "pk": 3,
+    "fields": {
+      "nombre_punto_muestreo": "Línea 2",
+      "orden": 2,
+      "id_etapa": 2,
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  },
+  {
+    "model": "monitoreoparametro.puntomuestreo",
+    "pk": 4,
+    "fields": {
+      "nombre_punto_muestreo": "Salida",
+      "orden": 1,
+      "id_etapa": 3,
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  }
+]

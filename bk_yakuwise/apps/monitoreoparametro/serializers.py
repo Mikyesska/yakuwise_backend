@@ -6,11 +6,12 @@ from .models import (
     Etapa,
     FrecuenciaMonitoreo,
     HorarioMonitoreo,
+    LimiteParametro,
     Monitoreo,
     Parametro,
     ParametroPuntoMuestreo,
-    PuntoMuestreo,
     Planta,
+    PuntoMuestreo,
     TipoError,
     TipoParametro,
     TipoPlanta,
@@ -76,6 +77,29 @@ class PuntoMuestreoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PuntoMuestreo
         fields = '__all__'
+
+
+class LimiteParametroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LimiteParametro
+        fields = '__all__'
+
+    def validate(self, data):
+        limite_inferior = data.get('limite_inferior')
+        limite_superior = data.get('limite_superior')
+
+        if limite_inferior is None and limite_superior is None:
+            raise serializers.ValidationError(
+                "Debe definir al menos un límite (inferior o superior)."
+            )
+
+        if limite_inferior is not None and limite_superior is not None:
+            if limite_inferior > limite_superior:
+                raise serializers.ValidationError(
+                    "El límite inferior no puede ser mayor al límite superior."
+                )
+
+        return data
 
 
 class ParametroPuntoMuestreoSerializer(serializers.ModelSerializer):

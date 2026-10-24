@@ -1,0 +1,167 @@
+[
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 1,
+    "fields": {
+      "nombre_parametro": "pH",
+      "abreviatura": "pH",
+      "id_unidad_medida": 4,
+      "id_tipo_parametro": 1,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 2,
+    "fields": {
+      "nombre_parametro": "Temperatura",
+      "abreviatura": "T",
+      "id_unidad_medida": 3,
+      "id_tipo_parametro": 1,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 3,
+    "fields": {
+      "nombre_parametro": "DBO5",
+      "abreviatura": "DBO5",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 2,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 4,
+    "fields": {
+      "nombre_parametro": "DQO",
+      "abreviatura": "DQO",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 2,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 5,
+    "fields": {
+      "nombre_parametro": "SST",
+      "abreviatura": "SST",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 1,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 6,
+    "fields": {
+      "nombre_parametro": "Coliformes Fecales",
+      "abreviatura": "CF",
+      "id_unidad_medida": 6,
+      "id_tipo_parametro": 5,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 7,
+    "fields": {
+      "nombre_parametro": "Nitrógeno Amoniacal",
+      "abreviatura": "N-NH3",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 2,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 8,
+    "fields": {
+      "nombre_parametro": "Fósforo Total",
+      "abreviatura": "P-Total",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 2,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 9,
+    "fields": {
+      "nombre_parametro": "Conductividad",
+      "abreviatura": "CE",
+      "id_unidad_medida": 5,
+      "id_tipo_parametro": 1,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 10,
+    "fields": {
+      "nombre_parametro": "Oxígeno Disuelto",
+      "abreviatura": "OD",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 1,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 11,
+    "fields": {
+      "nombre_parametro": "Turbidez",
+      "abreviatura": "NTU",
+      "id_unidad_medida": 9,
+      "id_tipo_parametro": 1,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 12,
+    "fields": {
+      "nombre_parametro": "Sólidos Disueltos Totales",
+      "abreviatura": "SDT",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 1,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 13,
+    "fields": {
+      "nombre_parametro": "Aceites y Grasas",
+      "abreviatura": "AyG",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 2,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 14,
+    "fields": {
+      "nombre_parametro": "Cloruros",
+      "abreviatura": "Cl-",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 2,
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.parametro",
+    "pk": 15,
+    "fields": {
+      "nombre_parametro": "Sulfatos",
+      "abreviatura": "SO4-2",
+      "id_unidad_medida": 1,
+      "id_tipo_parametro": 2,
+      "estado": true
+    }
+  }
+]

@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from apps.cliente.models import Proyecto
@@ -72,26 +75,22 @@ class UnidadMedida(models.Model):
 # Modelo de parametro
 class Parametro(models.Model):
     id_parametro = models.AutoField(primary_key=True)
-    nombre_parametro = models.CharField(max_length=150)
-    limite_superior = models.IntegerField()
-    limite_inferior = models.IntegerField(blank=True, null=True)
+    nombre_parametro = models.CharField(max_length=100, unique=True)
+    abreviatura = models.CharField(max_length=20, null=True, blank=True)
     id_unidad_medida = models.ForeignKey(
-        'UnidadMedida', on_delete=models.CASCADE, db_column='id_unidad_medida'
+        "UnidadMedida", on_delete=models.PROTECT, db_column="id_unidad_medida"
     )
     id_tipo_parametro = models.ForeignKey(
-        'TipoParametro', on_delete=models.CASCADE, db_column='id_tipo_parametro'
+        "TipoParametro", on_delete=models.PROTECT, db_column="id_tipo_parametro"
     )
-    estado = models.BooleanField()
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_modificacion = models.DateTimeField(auto_now=True)
+    estado = models.BooleanField(default=True)
 
     class Meta:
-        db_table = 'parametro'
-        verbose_name = "Parametro"
-        verbose_name_plural = "Parametros"
+        db_table = "parametro"
+        ordering = ["id_parametro"]
 
     def __str__(self):
-        return self.nombre_parametro
+        return f"{self.nombre_parametro} ({self.abreviatura})"
 
 
 # Modelo parametro punto de muestreo
@@ -205,6 +204,7 @@ class TipoPlanta(models.Model):
         db_table = 'tipo_planta'
         verbose_name = "Tipo de planta"
         verbose_name_plural = "Tipos de plantas"
+        ordering = ['id_tipo_planta']
 
     def __str__(self):
         return self.nombre_tipo_planta
@@ -239,18 +239,29 @@ class Planta(models.Model):
 class Etapa(models.Model):
     id_etapa = models.AutoField(primary_key=True)
     nombre_etapa = models.CharField(max_length=255)
-    imagen_etapa = models.TextField()
+    imagen_etapa = models.TextField(blank=True)  # ruta/URL; evita base64
+    orden = models.PositiveSmallIntegerField(default=1)  # NUEVO
     id_planta = models.ForeignKey(
-        'Planta', on_delete=models.CASCADE, db_column='id_planta'
+        "Planta",
+        on_delete=models.PROTECT,  # antes CASCADE
+        related_name="etapas",
+        db_column="id_planta",
     )
-    estado = models.BooleanField()
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    estado = models.BooleanField(default=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True, null=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'etapa'
+        db_table = "etapa"
         verbose_name = "Etapa"
         verbose_name_plural = "Etapas"
+        ordering = ["id_planta", "orden"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["id_planta", "nombre_etapa"],
+                name="uq_etapa_planta_nombre",
+            ),
+        ]
 
     def __str__(self):
         return self.nombre_etapa
@@ -260,13 +271,97 @@ class Etapa(models.Model):
 class PuntoMuestreo(models.Model):
     id_punto_muestreo = models.AutoField(primary_key=True)
     nombre_punto_muestreo = models.CharField(max_length=255)
-    id_etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE, db_column='id_etapa')
-    estado = models.BooleanField()
+    orden = models.PositiveSmallIntegerField(default=1)  # NUEVO
+    id_etapa = models.ForeignKey(
+        Etapa,
+        on_delete=models.PROTECT,  # antes CASCADE
+        related_name="puntos_muestreo",
+        db_column="id_etapa",
+    )
+    estado = models.BooleanField(default=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True, null=True)
+    fecha_modificacion = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'punto_muestreo'
+        db_table = "punto_muestreo"
         verbose_name = "Punto de muestreo"
         verbose_name_plural = "Puntos de muestreo"
+        ordering = ["id_etapa", "orden"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["id_etapa", "nombre_punto_muestreo"],
+                name="uq_punto_etapa_nombre",
+            ),
+        ]
 
     def __str__(self):
-        return self.nombre_punto_muestreo
+        return f"{self.id_etapa} – {self.nombre_punto_muestreo}"
+
+
+# Modelo LimiteParametro: rango permisible de un parámetro en un punto de muestreo.
+class LimiteParametro(models.Model):
+    class Fuente(models.TextChoices):
+        ECA = "ECA", "ECA – DS N° 004-2017-MINAM"
+        LMP = "LMP", "LMP – DS N° 003-2010-MINAM"
+        TECNICO = "TEC", "Técnico-operativo de la planta"
+
+    id_limite_parametro = models.AutoField(primary_key=True)
+    id_parametro = models.ForeignKey(
+        Parametro,
+        on_delete=models.PROTECT,
+        related_name="limites",
+        db_column="id_parametro",
+    )
+    id_punto_muestreo = models.ForeignKey(
+        PuntoMuestreo,
+        on_delete=models.PROTECT,
+        related_name="limites",
+        db_column="id_punto_muestreo",
+    )
+    # Null = sin límite en ese extremo (p. ej. "máx. 35 °C").
+    limite_inferior = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    limite_superior = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    fuente = models.CharField(max_length=3, choices=Fuente.choices)
+    estado = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "limite_parametro"
+        ordering = ["id_limite_parametro"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["id_parametro", "id_punto_muestreo"],
+                name="uq_limite_parametro_punto",
+            ),
+            models.CheckConstraint(
+                condition=(
+                    models.Q(limite_inferior__isnull=True)
+                    | models.Q(limite_superior__isnull=True)
+                    | models.Q(limite_inferior__lte=models.F("limite_superior"))
+                ),
+                name="ck_limite_inferior_lte_superior",
+            ),
+        ]
+
+    def __str__(self):
+        inf = self.limite_inferior if self.limite_inferior is not None else "—"
+        sup = self.limite_superior if self.limite_superior is not None else "—"
+        return (
+            f"{self.id_parametro.abreviatura} – {self.id_punto_muestreo}: {inf} a {sup}"
+        )
+
+    def clean(self):
+        if self.limite_inferior is None and self.limite_superior is None:
+            raise ValidationError("Debe definir al menos un límite.")
+
+    def esta_fuera_de_rango(self, valor) -> bool:
+        """True si el valor medido es una anomalía (dispara alerta)."""
+        valor = Decimal(str(valor))
+        if self.limite_inferior is not None and valor < self.limite_inferior:
+            return True
+        if self.limite_superior is not None and valor > self.limite_superior:
+            return True
+        return False

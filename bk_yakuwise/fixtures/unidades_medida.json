@@ -1,0 +1,92 @@
+[
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 1,
+    "fields": {
+      "nombre_unidad_medida": "Miligramos por litro",
+      "abreviatura": "mg/L",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 2,
+    "fields": {
+      "nombre_unidad_medida": "Partes por millón",
+      "abreviatura": "ppm",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 3,
+    "fields": {
+      "nombre_unidad_medida": "Grados Celsius",
+      "abreviatura": "°C",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 4,
+    "fields": {
+      "nombre_unidad_medida": "Potencial de hidrógeno",
+      "abreviatura": "pH",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 5,
+    "fields": {
+      "nombre_unidad_medida": "Microsiemens por centímetro",
+      "abreviatura": "µS/cm",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 6,
+    "fields": {
+      "nombre_unidad_medida": "Unidades formadoras de colonia",
+      "abreviatura": "UFC/100mL",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 7,
+    "fields": {
+      "nombre_unidad_medida": "Miliequivalentes por litro",
+      "abreviatura": "meq/L",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 8,
+    "fields": {
+      "nombre_unidad_medida": "Miligramos por kilogramo",
+      "abreviatura": "mg/kg",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 9,
+    "fields": {
+      "nombre_unidad_medida": "Unidades nefelométricas de turbidez",
+      "abreviatura": "NTU",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.unidadmedida",
+    "pk": 10,
+    "fields": {
+      "nombre_unidad_medida": "Mililitros por litro",
+      "abreviatura": "mL/L",
+      "estado": true
+    }
+  }
+]

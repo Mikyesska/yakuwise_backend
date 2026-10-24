@@ -1,0 +1,254 @@
+[
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 1,
+    "fields": {
+      "id_parametro": 1,
+      "id_punto_muestreo": 1,
+      "limite_inferior": "6.50",
+      "limite_superior": "8.50",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 2,
+    "fields": {
+      "id_parametro": 2,
+      "id_punto_muestreo": 1,
+      "limite_inferior": null,
+      "limite_superior": "35.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 3,
+    "fields": {
+      "id_parametro": 3,
+      "id_punto_muestreo": 1,
+      "limite_inferior": null,
+      "limite_superior": "560.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 4,
+    "fields": {
+      "id_parametro": 5,
+      "id_punto_muestreo": 1,
+      "limite_inferior": null,
+      "limite_superior": "2500.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 5,
+    "fields": {
+      "id_parametro": 6,
+      "id_punto_muestreo": 1,
+      "limite_inferior": null,
+      "limite_superior": "1320.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 6,
+    "fields": {
+      "id_parametro": 1,
+      "id_punto_muestreo": 2,
+      "limite_inferior": "6.50",
+      "limite_superior": "8.50",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 7,
+    "fields": {
+      "id_parametro": 2,
+      "id_punto_muestreo": 2,
+      "limite_inferior": null,
+      "limite_superior": "35.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 8,
+    "fields": {
+      "id_parametro": 7,
+      "id_punto_muestreo": 2,
+      "limite_inferior": "1.50",
+      "limite_superior": "2.50",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 9,
+    "fields": {
+      "id_parametro": 9,
+      "id_punto_muestreo": 2,
+      "limite_inferior": "150.00",
+      "limite_superior": "300.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 10,
+    "fields": {
+      "id_parametro": 1,
+      "id_punto_muestreo": 3,
+      "limite_inferior": "6.50",
+      "limite_superior": "8.50",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 11,
+    "fields": {
+      "id_parametro": 2,
+      "id_punto_muestreo": 3,
+      "limite_inferior": null,
+      "limite_superior": "35.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 12,
+    "fields": {
+      "id_parametro": 7,
+      "id_punto_muestreo": 3,
+      "limite_inferior": "1.50",
+      "limite_superior": "2.50",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 13,
+    "fields": {
+      "id_parametro": 9,
+      "id_punto_muestreo": 3,
+      "limite_inferior": "200.00",
+      "limite_superior": "600.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 14,
+    "fields": {
+      "id_parametro": 1,
+      "id_punto_muestreo": 4,
+      "limite_inferior": "6.50",
+      "limite_superior": "8.50",
+      "fuente": "LMP",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 15,
+    "fields": {
+      "id_parametro": 2,
+      "id_punto_muestreo": 4,
+      "limite_inferior": null,
+      "limite_superior": "35.00",
+      "fuente": "LMP",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 16,
+    "fields": {
+      "id_parametro": 3,
+      "id_punto_muestreo": 4,
+      "limite_inferior": null,
+      "limite_superior": "60.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 17,
+    "fields": {
+      "id_parametro": 4,
+      "id_punto_muestreo": 4,
+      "limite_inferior": null,
+      "limite_superior": "150.00",
+      "fuente": "LMP",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 18,
+    "fields": {
+      "id_parametro": 5,
+      "id_punto_muestreo": 4,
+      "limite_inferior": null,
+      "limite_superior": "2500.00",
+      "fuente": "ECA",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 19,
+    "fields": {
+      "id_parametro": 6,
+      "id_punto_muestreo": 4,
+      "limite_inferior": null,
+      "limite_superior": "200.00",
+      "fuente": "LMP",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 20,
+    "fields": {
+      "id_parametro": 7,
+      "id_punto_muestreo": 4,
+      "limite_inferior": "2.00",
+      "limite_superior": "4.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  },
+  {
+    "model": "monitoreoparametro.limiteparametro",
+    "pk": 21,
+    "fields": {
+      "id_parametro": 8,
+      "id_punto_muestreo": 4,
+      "limite_inferior": null,
+      "limite_superior": "2.00",
+      "fuente": "TEC",
+      "estado": true
+    }
+  }
+]

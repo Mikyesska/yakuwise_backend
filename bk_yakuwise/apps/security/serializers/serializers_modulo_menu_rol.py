@@ -130,7 +130,7 @@ class MenusSerializer(serializers.ModelSerializer):
         if nivel == 2 and not id_depende:
             raise serializers.ValidationError(
                 {"id_depende": "El menú padre es requerido cuando el nivel es 2."}
-            ) 
+            )
 
         # Validar orden
         if data.get('orden') is not None and data.get('orden') < 1:

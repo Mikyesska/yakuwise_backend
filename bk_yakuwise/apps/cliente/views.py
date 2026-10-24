@@ -1,8 +1,8 @@
 # apps/cliente/views.py
 from rest_framework import viewsets
 
-from .models import Contacto, Cliente, Proyecto
-from .serializers import ContactoSerializer, ClienteSerializer, ProyectoSerializer
+from .models import Cliente, Contacto, Proyecto
+from .serializers import ClienteSerializer, ContactoSerializer, ProyectoSerializer
 
 
 class ContactoViewSet(viewsets.ModelViewSet):

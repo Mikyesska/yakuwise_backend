@@ -6,11 +6,12 @@ from .models import (
     Etapa,
     FrecuenciaMonitoreo,
     HorarioMonitoreo,
+    LimiteParametro,
     Monitoreo,
     Parametro,
     ParametroPuntoMuestreo,
-    PuntoMuestreo,
     Planta,
+    PuntoMuestreo,
     TipoError,
     TipoParametro,
     TipoPlanta,
@@ -22,6 +23,7 @@ from .serializers import (
     EtapaSerializer,
     FrecuenciaMonitoreoSerializer,
     HorarioMonitoreoSerializer,
+    LimiteParametroSerializer,
     MonitoreoSerializer,
     ParametroPuntoMuestreoSerializer,
     ParametroSerializer,
@@ -82,6 +84,11 @@ class EtapaViewSet(viewsets.ModelViewSet):
 class PuntoMuestreoViewSet(viewsets.ModelViewSet):
     queryset = PuntoMuestreo.objects.all()
     serializer_class = PuntoMuestreoSerializer
+
+
+class LimiteParametroViewSet(viewsets.ModelViewSet):
+    queryset = LimiteParametro.objects.all()
+    serializer_class = LimiteParametroSerializer
 
 
 class ParametroPuntoMuestreoViewSet(viewsets.ModelViewSet):

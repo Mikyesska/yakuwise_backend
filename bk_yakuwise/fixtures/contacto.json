@@ -1,0 +1,17 @@
+[
+  {
+    "model": "cliente.contacto",
+    "pk": 1,
+    "fields": {
+      "area": "Gerencia",
+      "nombres": "Juan",
+      "apellido_paterno": "Pérez",
+      "apellido_materno": "López",
+      "email_contacto": "juan.perez@empresa.com",
+      "telefono_contacto": "999888777",
+      "estado": true,
+      "fecha_creacion": "2026-10-22T00:00:00Z",
+      "fecha_modificacion": "2026-10-22T00:00:00Z"
+    }
+  }
+]

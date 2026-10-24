@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Contacto, Cliente, Proyecto
+from .models import Cliente, Contacto, Proyecto
 
 
 class ContactoSerializer(serializers.ModelSerializer):

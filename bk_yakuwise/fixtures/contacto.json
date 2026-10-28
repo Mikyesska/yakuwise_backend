@@ -10,6 +10,7 @@
       "email_contacto": "juan.perez@empresa.com",
       "telefono_contacto": "999888777",
       "estado": true,
+      "id_cliente": 1,
       "fecha_creacion": "2026-10-22T00:00:00Z",
       "fecha_modificacion": "2026-10-22T00:00:00Z"
     }

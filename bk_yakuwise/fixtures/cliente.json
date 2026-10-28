@@ -9,7 +9,6 @@
       "telefono": "911222333",
       "direccion": "Av. Principal 123, Lima",
       "estado": true,
-      "id_contacto": 1,
       "fecha_creacion": "2026-10-22T00:00:00Z",
       "fecha_modificacion": "2026-10-22T00:00:00Z"
     }

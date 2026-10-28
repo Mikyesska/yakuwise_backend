@@ -11,6 +11,13 @@ class Contacto(models.Model):
     email_contacto = models.CharField(max_length=255)
     telefono_contacto = models.CharField(max_length=15)
     estado = models.BooleanField()
+    id_cliente = models.ForeignKey(
+        'Cliente',
+        on_delete=models.CASCADE,
+        db_column='id_cliente',
+        null=True,
+        blank=True,
+    )
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 
@@ -45,9 +52,6 @@ class Cliente(models.Model):
     telefono = models.CharField(max_length=15)
     direccion = models.CharField(max_length=300)
     estado = models.BooleanField()
-    id_contacto = models.ForeignKey(
-        'Contacto', on_delete=models.CASCADE, db_column='id_contacto'
-    )
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
 

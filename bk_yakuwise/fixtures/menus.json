@@ -6,7 +6,7 @@
       "nivel": 1,
       "orden": 1,
       "ruta": "/security/roles",
-      "nombre_menu": "ROLES",
+      "nombre_menu": "Roles",
       "id_modulo": 1,
       "id_depende": null,
       "estado": true
@@ -19,7 +19,7 @@
       "nivel": 1,
       "orden": 2,
       "ruta": "/security/usuarios",
-      "nombre_menu": "USUARIOS",
+      "nombre_menu": "Usuarios",
       "id_modulo": 1,
       "id_depende": null,
       "estado": true
@@ -32,7 +32,7 @@
       "nivel": 1,
       "orden": 3,
       "ruta": "/security/modulos",
-      "nombre_menu": "MÓDULOS",
+      "nombre_menu": "Módulos",
       "id_modulo": 1,
       "id_depende": null,
       "estado": true
@@ -45,7 +45,7 @@
       "nivel": 2,
       "orden": 1,
       "ruta": "/security/menus",
-      "nombre_menu": "MENUS",
+      "nombre_menu": "Menus",
       "id_modulo": 1,
       "id_depende": 3,
       "estado": true
@@ -58,7 +58,7 @@
       "nivel": 1,
       "orden": 1,
       "ruta": "/api/contactos",
-      "nombre_menu": "CONTACTOS",
+      "nombre_menu": "Contactos",
       "id_modulo": 2,
       "id_depende": null,
       "estado": true
@@ -71,7 +71,7 @@
       "nivel": 1,
       "orden": 2,
       "ruta": "/api/clientes",
-      "nombre_menu": "CLIENTES",
+      "nombre_menu": "Clientes",
       "id_modulo": 2,
       "id_depende": null,
       "estado": true
@@ -84,7 +84,7 @@
       "nivel": 1,
       "orden": 3,
       "ruta": "/api/proyectos",
-      "nombre_menu": "PROYECTOS",
+      "nombre_menu": "Proyectos",
       "id_modulo": 2,
       "id_depende": null,
       "estado": true
@@ -97,7 +97,7 @@
       "nivel": 1,
       "orden": 1,
       "ruta": "/api/monitoreo/frecuencias-monitoreo",
-      "nombre_menu": "FRECUENCIAS MONITOREO",
+      "nombre_menu": "Frecuencias Monitoreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -110,7 +110,7 @@
       "nivel": 1,
       "orden": 2,
       "ruta": "/api/monitoreo/horarios-monitoreo",
-      "nombre_menu": "HORARIOS MONITOREO",
+      "nombre_menu": "Horarios Monitoreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -123,7 +123,7 @@
       "nivel": 1,
       "orden": 3,
       "ruta": "/api/monitoreo/tipos-parametro",
-      "nombre_menu": "TIPOS PARAMETRO",
+      "nombre_menu": "Tipos Parametro",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -136,7 +136,7 @@
       "nivel": 1,
       "orden": 4,
       "ruta": "/api/monitoreo/unidades-medida",
-      "nombre_menu": "UNIDADES MEDIDA",
+      "nombre_menu": "Unidades Medida",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -149,7 +149,7 @@
       "nivel": 1,
       "orden": 5,
       "ruta": "/api/monitoreo/tipos-error",
-      "nombre_menu": "TIPOS ERROR",
+      "nombre_menu": "Tipos Error",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -162,7 +162,7 @@
       "nivel": 1,
       "orden": 6,
       "ruta": "/api/monitoreo/tipos-planta",
-      "nombre_menu": "TIPOS PLANTA",
+      "nombre_menu": "Tipos Planta",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -175,7 +175,7 @@
       "nivel": 1,
       "orden": 7,
       "ruta": "/api/monitoreo/parametros",
-      "nombre_menu": "PARAMETROS",
+      "nombre_menu": "Parametros",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -188,7 +188,7 @@
       "nivel": 1,
       "orden": 8,
       "ruta": "/api/monitoreo/plantas",
-      "nombre_menu": "PLANTAS",
+      "nombre_menu": "Plantas",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -201,7 +201,7 @@
       "nivel": 1,
       "orden": 9,
       "ruta": "/api/monitoreo/etapas",
-      "nombre_menu": "ETAPAS",
+      "nombre_menu": "Etapas",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -214,7 +214,7 @@
       "nivel": 1,
       "orden": 10,
       "ruta": "/api/monitoreo/puntos-muestreo",
-      "nombre_menu": "PUNTOS MUESTREO",
+      "nombre_menu": "Puntos Muestreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -227,7 +227,7 @@
       "nivel": 1,
       "orden": 11,
       "ruta": "/api/monitoreo/parametros-punto-muestreo",
-      "nombre_menu": "PARAMETROS PUNTO MUESTREO",
+      "nombre_menu": "Parametros Punto Muestreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -240,7 +240,7 @@
       "nivel": 1,
       "orden": 12,
       "ruta": "/api/monitoreo/monitoreos",
-      "nombre_menu": "MONITOREOS",
+      "nombre_menu": "Monitoreos",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -251,10 +251,10 @@
     "pk": 20,
     "fields": {
       "nivel": 1,
-      "orden": 13,
+      "orden": 1,
       "ruta": "/api/monitoreo/anormalidades",
-      "nombre_menu": "ANORMALIDADES",
-      "id_modulo": 3,
+      "nombre_menu": "Anormalidades",
+      "id_modulo": 4,
       "id_depende": null,
       "estado": true
     }
@@ -264,10 +264,23 @@
     "pk": 21,
     "fields": {
       "nivel": 1,
-      "orden": 14,
+      "orden": 2,
       "ruta": "/api/monitoreo/acciones-correctivas",
-      "nombre_menu": "ACCIONES CORRECTIVAS",
-      "id_modulo": 3,
+      "nombre_menu": "Acciones Correctivas",
+      "id_modulo": 4,
+      "id_depende": null,
+      "estado": true
+    }
+  },
+  {
+    "model": "security.menus",
+    "pk": 22,
+    "fields": {
+      "nivel": 1,
+      "orden": 3,
+      "ruta": "/api/monitoreo/reportes",
+      "nombre_menu": "Reportes",
+      "id_modulo": 4,
       "id_depende": null,
       "estado": true
     }

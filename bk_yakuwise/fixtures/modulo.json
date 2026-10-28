@@ -11,7 +11,7 @@
     "model": "security.modulo",
     "pk": 2,
     "fields": {
-      "nombre_modulo": "CLIENTE",
+      "nombre_modulo": "PROYECTO",
       "estado": true
     }
   },
@@ -19,7 +19,15 @@
     "model": "security.modulo",
     "pk": 3,
     "fields": {
-      "nombre_modulo": "MONITOREO PARAMETRO",
+      "nombre_modulo": "MONITOREOS",
+      "estado": true
+    }
+  },
+  {
+    "model": "security.modulo",
+    "pk": 4,
+    "fields": {
+      "nombre_modulo": "SEGUIMIENTO Y CONTROL",
       "estado": true
     }
   }

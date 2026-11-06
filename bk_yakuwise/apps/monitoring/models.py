@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from apps.cliente.models import Proyecto
+from apps.project.models import Proyecto
 
 
 # Modelo frecuencia de monitoreo

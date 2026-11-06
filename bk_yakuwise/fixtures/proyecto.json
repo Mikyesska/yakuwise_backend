@@ -1,6 +1,6 @@
 [
   {
-    "model": "cliente.proyecto",
+    "model": "project.proyecto",
     "pk": 1,
     "fields": {
       "nombre_proyecto": "Planta de Tratamiento - Lima Norte",

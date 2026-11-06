@@ -1,6 +1,6 @@
 [
   {
-    "model": "cliente.contacto",
+    "model": "project.contacto",
     "pk": 1,
     "fields": {
       "area": "Gerencia",

@@ -1,6 +1,6 @@
 [
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 1,
     "fields": {
       "id_parametro": 1,
@@ -12,7 +12,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 2,
     "fields": {
       "id_parametro": 2,
@@ -24,7 +24,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 3,
     "fields": {
       "id_parametro": 3,
@@ -36,7 +36,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 4,
     "fields": {
       "id_parametro": 5,
@@ -48,7 +48,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 5,
     "fields": {
       "id_parametro": 6,
@@ -60,7 +60,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 6,
     "fields": {
       "id_parametro": 1,
@@ -72,7 +72,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 7,
     "fields": {
       "id_parametro": 2,
@@ -84,7 +84,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 8,
     "fields": {
       "id_parametro": 7,
@@ -96,7 +96,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 9,
     "fields": {
       "id_parametro": 9,
@@ -108,7 +108,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 10,
     "fields": {
       "id_parametro": 1,
@@ -120,7 +120,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 11,
     "fields": {
       "id_parametro": 2,
@@ -132,7 +132,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 12,
     "fields": {
       "id_parametro": 7,
@@ -144,7 +144,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 13,
     "fields": {
       "id_parametro": 9,
@@ -156,7 +156,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 14,
     "fields": {
       "id_parametro": 1,
@@ -168,7 +168,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 15,
     "fields": {
       "id_parametro": 2,
@@ -180,7 +180,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 16,
     "fields": {
       "id_parametro": 3,
@@ -192,7 +192,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 17,
     "fields": {
       "id_parametro": 4,
@@ -204,7 +204,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 18,
     "fields": {
       "id_parametro": 5,
@@ -216,7 +216,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 19,
     "fields": {
       "id_parametro": 6,
@@ -228,7 +228,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 20,
     "fields": {
       "id_parametro": 7,
@@ -240,7 +240,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.limiteparametro",
+    "model": "monitoring.limiteparametro",
     "pk": 21,
     "fields": {
       "id_parametro": 8,

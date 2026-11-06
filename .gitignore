@@ -20,6 +20,6 @@ Thumbs.db # Windows
 
 # Ignorar carpetas de migraciones (ejemplos)
 **/migrations/
-cliente/migrations
+project/migrations
 security/migrations
-monitoreoparametro/migrations
+monitoring/migrations

@@ -1,6 +1,6 @@
 [
   {
-    "model": "monitoreoparametro.puntomuestreo",
+    "model": "monitoring.puntomuestreo",
     "pk": 1,
     "fields": {
       "nombre_punto_muestreo": "Ingreso",
@@ -12,7 +12,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.puntomuestreo",
+    "model": "monitoring.puntomuestreo",
     "pk": 2,
     "fields": {
       "nombre_punto_muestreo": "Línea 1",
@@ -24,7 +24,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.puntomuestreo",
+    "model": "monitoring.puntomuestreo",
     "pk": 3,
     "fields": {
       "nombre_punto_muestreo": "Línea 2",
@@ -36,7 +36,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.puntomuestreo",
+    "model": "monitoring.puntomuestreo",
     "pk": 4,
     "fields": {
       "nombre_punto_muestreo": "Salida",

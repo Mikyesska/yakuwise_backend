@@ -1,6 +1,6 @@
 [
   {
-    "model": "monitoreoparametro.etapa",
+    "model": "monitoring.etapa",
     "pk": 1,
     "fields": {
       "nombre_etapa": "Ingreso (Afluente)",
@@ -13,7 +13,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.etapa",
+    "model": "monitoring.etapa",
     "pk": 2,
     "fields": {
       "nombre_etapa": "Tratamiento biológico (Reactor)",
@@ -26,7 +26,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.etapa",
+    "model": "monitoring.etapa",
     "pk": 3,
     "fields": {
       "nombre_etapa": "Salida (Efluente)",

@@ -1,6 +1,6 @@
 [
   {
-    "model": "monitoreoparametro.tipoplanta",
+    "model": "monitoring.tipoplanta",
     "pk": 1,
     "fields": {
       "nombre_tipo_planta": "Planta de Tratamiento de Aguas Residuales",
@@ -8,7 +8,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoplanta",
+    "model": "monitoring.tipoplanta",
     "pk": 2,
     "fields": {
       "nombre_tipo_planta": "Planta de Tratamiento de Agua Potable",
@@ -16,7 +16,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoplanta",
+    "model": "monitoring.tipoplanta",
     "pk": 3,
     "fields": {
       "nombre_tipo_planta": "Planta de Desalinización",
@@ -24,7 +24,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoplanta",
+    "model": "monitoring.tipoplanta",
     "pk": 4,
     "fields": {
       "nombre_tipo_planta": "Planta de Reciclaje de Aguas Grises",
@@ -32,7 +32,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoplanta",
+    "model": "monitoring.tipoplanta",
     "pk": 5,
     "fields": {
       "nombre_tipo_planta": "Planta de Ósmosis Inversa",

@@ -61,8 +61,8 @@ INSTALLED_APPS = [
     'django_filters',
     # Apps internas (ubicadas en apps/)
     'apps.security',
-    'apps.cliente',
-    'apps.monitoreoparametro',
+    'apps.project',
+    'apps.monitoring',
 ]
 
 INSTALLED_APPS += ['corsheaders']

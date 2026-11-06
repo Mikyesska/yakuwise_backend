@@ -1,6 +1,6 @@
 [
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 1,
     "fields": {
       "nombre_parametro": "pH",
@@ -11,7 +11,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 2,
     "fields": {
       "nombre_parametro": "Temperatura",
@@ -22,7 +22,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 3,
     "fields": {
       "nombre_parametro": "DBO5",
@@ -33,7 +33,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 4,
     "fields": {
       "nombre_parametro": "DQO",
@@ -44,7 +44,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 5,
     "fields": {
       "nombre_parametro": "SST",
@@ -55,7 +55,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 6,
     "fields": {
       "nombre_parametro": "Coliformes Fecales",
@@ -66,7 +66,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 7,
     "fields": {
       "nombre_parametro": "Nitrógeno Amoniacal",
@@ -77,7 +77,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 8,
     "fields": {
       "nombre_parametro": "Fósforo Total",
@@ -88,7 +88,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 9,
     "fields": {
       "nombre_parametro": "Conductividad",
@@ -99,7 +99,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 10,
     "fields": {
       "nombre_parametro": "Oxígeno Disuelto",
@@ -110,7 +110,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 11,
     "fields": {
       "nombre_parametro": "Turbidez",
@@ -121,7 +121,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 12,
     "fields": {
       "nombre_parametro": "Sólidos Disueltos Totales",
@@ -132,7 +132,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 13,
     "fields": {
       "nombre_parametro": "Aceites y Grasas",
@@ -143,7 +143,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 14,
     "fields": {
       "nombre_parametro": "Cloruros",
@@ -154,7 +154,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.parametro",
+    "model": "monitoring.parametro",
     "pk": 15,
     "fields": {
       "nombre_parametro": "Sulfatos",

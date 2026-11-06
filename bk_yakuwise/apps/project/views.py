@@ -1,4 +1,4 @@
-# apps/cliente/views.py
+# apps/project/views.py
 from rest_framework import viewsets
 
 from .models import Cliente, Contacto, Proyecto

@@ -19,7 +19,7 @@
     "model": "security.modulo",
     "pk": 3,
     "fields": {
-      "nombre_modulo": "MONITOREOS",
+      "nombre_modulo": "MONITOREO DE PARAMETROS",
       "estado": true
     }
   },

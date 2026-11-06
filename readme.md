@@ -43,8 +43,8 @@ yakuwise_backend/
 ├── bk_yakuwise/           # Proyecto Django principal
 │   ├── apps/              # Aplicaciones internas
 │   │   ├── security/      # Autenticación y roles
-│   │   ├── cliente/       # Gestión de clientes
-│   │   └── monitoreoparametro/
+│   │   ├── project/       # Gestión de clientes y proyectos
+│   │   └── monitoring/    # Monitoreo de parámetros
 │   ├── fixtures/          # Datos iniciales (rol, tipo_documento)
 │   ├── manage.py
 │   └── yakuwise/          # Configuración

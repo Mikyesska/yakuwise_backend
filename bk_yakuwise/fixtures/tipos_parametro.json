@@ -1,6 +1,6 @@
 [
   {
-    "model": "monitoreoparametro.tipoparametro",
+    "model": "monitoring.tipoparametro",
     "pk": 1,
     "fields": {
       "nombre_tipo_parametro": "Físico",
@@ -8,7 +8,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoparametro",
+    "model": "monitoring.tipoparametro",
     "pk": 2,
     "fields": {
       "nombre_tipo_parametro": "Químico",
@@ -16,7 +16,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoparametro",
+    "model": "monitoring.tipoparametro",
     "pk": 3,
     "fields": {
       "nombre_tipo_parametro": "Biológico",
@@ -24,7 +24,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoparametro",
+    "model": "monitoring.tipoparametro",
     "pk": 4,
     "fields": {
       "nombre_tipo_parametro": "Radiológico",
@@ -32,7 +32,7 @@
     }
   },
   {
-    "model": "monitoreoparametro.tipoparametro",
+    "model": "monitoring.tipoparametro",
     "pk": 5,
     "fields": {
       "nombre_tipo_parametro": "Microbiológico",

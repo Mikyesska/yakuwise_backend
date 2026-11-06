@@ -1,6 +1,6 @@
 [
   {
-    "model": "cliente.cliente",
+    "model": "project.cliente",
     "pk": 1,
     "fields": {
       "nombre_cliente": "Empresa de Servicios de Agua S.A.",

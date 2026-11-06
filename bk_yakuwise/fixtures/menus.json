@@ -97,7 +97,7 @@
       "nivel": 1,
       "orden": 1,
       "ruta": "/api/monitoreo/frecuencias-monitoreo",
-      "nombre_menu": "Frecuencias Monitoreo",
+      "nombre_menu": "Frecuencias de monitoreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -110,7 +110,7 @@
       "nivel": 1,
       "orden": 2,
       "ruta": "/api/monitoreo/horarios-monitoreo",
-      "nombre_menu": "Horarios Monitoreo",
+      "nombre_menu": "Horarios de monitoreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -123,7 +123,7 @@
       "nivel": 1,
       "orden": 3,
       "ruta": "/api/monitoreo/tipos-parametro",
-      "nombre_menu": "Tipos Parametro",
+      "nombre_menu": "Tipos de parámetro",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -136,7 +136,7 @@
       "nivel": 1,
       "orden": 4,
       "ruta": "/api/monitoreo/unidades-medida",
-      "nombre_menu": "Unidades Medida",
+      "nombre_menu": "Unidades de medida",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -149,7 +149,7 @@
       "nivel": 1,
       "orden": 5,
       "ruta": "/api/monitoreo/tipos-error",
-      "nombre_menu": "Tipos Error",
+      "nombre_menu": "Tipos de error",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -162,7 +162,7 @@
       "nivel": 1,
       "orden": 6,
       "ruta": "/api/monitoreo/tipos-planta",
-      "nombre_menu": "Tipos Planta",
+      "nombre_menu": "Tipos de planta",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -214,7 +214,7 @@
       "nivel": 1,
       "orden": 10,
       "ruta": "/api/monitoreo/puntos-muestreo",
-      "nombre_menu": "Puntos Muestreo",
+      "nombre_menu": "Puntos de muestreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -227,7 +227,7 @@
       "nivel": 1,
       "orden": 11,
       "ruta": "/api/monitoreo/parametros-punto-muestreo",
-      "nombre_menu": "Parametros Punto Muestreo",
+      "nombre_menu": "Parametros de punto muestreo",
       "id_modulo": 3,
       "id_depende": null,
       "estado": true
@@ -266,7 +266,7 @@
       "nivel": 1,
       "orden": 2,
       "ruta": "/api/monitoreo/acciones-correctivas",
-      "nombre_menu": "Acciones Correctivas",
+      "nombre_menu": "Acciones correctivas",
       "id_modulo": 4,
       "id_depende": null,
       "estado": true

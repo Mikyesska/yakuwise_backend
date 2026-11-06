@@ -1,6 +1,6 @@
 [
   {
-    "model": "monitoreoparametro.planta",
+    "model": "monitoring.planta",
     "pk": 1,
     "fields": {
       "tipo_planta": 1,
